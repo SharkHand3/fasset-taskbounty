@@ -25,7 +25,7 @@ Flare Testnet Coston2
 | Reward asset | Coston2 FTestXRP | Official address configured |
 | Frontend | Local, then public static hosting | Placeholder |
 | Backend/indexer | Local service | Deferred until the direct chain flow works |
-| Source and documentation | GitHub | Pending first push |
+| Source and documentation | [GitHub](https://github.com/SharkHand3/fasset-taskbounty) | Published on `main` |
 | Hackathon submission | DoraHacks BUIDL | Registration complete; submission pending |
 
 ## MVP transaction flow
