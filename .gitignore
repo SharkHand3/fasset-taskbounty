@@ -1,0 +1,21 @@
+# Foundry build artifacts
+contracts/cache/
+contracts/out/
+contracts/broadcast/
+
+# Dependencies are restored with the commands documented in README.md
+contracts/lib/
+
+# Local secrets and editor files
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+
+# Frontend/backend dependencies (reserved for later milestones)
+node_modules/
+.next/
+dist/
+coverage/
+
