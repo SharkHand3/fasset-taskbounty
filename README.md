@@ -25,9 +25,21 @@ Open -> InProgress -> Submitted -> Completed
   +--------------------------------> Cancelled
 ```
 
-The local tests use a mock ERC-20 token. The Coston2 deployment script is now
-configured for the official FTestXRP contract; the next milestone is funding a
-dedicated test wallet and deploying the contract.
+The local tests use a mock ERC-20 token. The first Coston2 integration
+deployment is live and bound to the official FTestXRP contract. Public RPC
+checks confirmed chain ID `114`, successful runtime bytecode, the expected
+reward token, and `nextTaskId = 1`. The next milestone is executing the full
+approve, create, accept, submit, and release workflow with two test accounts.
+
+### Coston2 integration deployment
+
+- TaskBounty: [`0x362Dc83F1E12fFC05b94038A3F052461327B595e`](https://coston2-explorer.flare.network/address/0x362Dc83F1E12fFC05b94038A3F052461327B595e)
+- Deployment transaction: [`0xe8f83bd5deada6ba5f3987480064e076af9fdb8e4fde5f3f2a3c9f720b397647`](https://coston2-explorer.flare.network/tx/0xe8f83bd5deada6ba5f3987480064e076af9fdb8e4fde5f3f2a3c9f720b397647)
+- Reward token: `0x0b6A3645c240605887a5532109323A3E12273dc7` (FTestXRP)
+- Network: Flare Testnet Coston2 (`114`)
+
+This is an integration deployment used to prove the end-to-end workflow. A
+final submission deployment will follow after the workflow and UI are stable.
 
 ## Repository layout
 

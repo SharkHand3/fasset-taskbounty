@@ -27,6 +27,7 @@ After creating and funding the encrypted `coston2-deployer` keystore:
 ```bash
 forge script script/DeployTaskBounty.s.sol:DeployTaskBounty \
   --rpc-url coston2 \
+  --sender 0xYourTestWalletAddress \
   --account coston2-deployer \
   --broadcast
 ```

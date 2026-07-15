@@ -85,6 +85,7 @@ Only run this after verifying the wallet address and both balances:
 ```bash
 forge script script/DeployTaskBounty.s.sol:DeployTaskBounty \
   --rpc-url coston2 \
+  --sender 0xYourTestWalletAddress \
   --account coston2-deployer \
   --broadcast
 ```
@@ -92,3 +93,40 @@ forge script script/DeployTaskBounty.s.sol:DeployTaskBounty \
 The encrypted keystore password is requested interactively. The output must
 show chain ID `114`, the FTestXRP reward-token address, and the new TaskBounty
 contract address.
+
+## Initial integration deployment
+
+The first public Coston2 deployment was completed successfully on 2026-07-15.
+It is an integration deployment for running the complete escrow workflow, not
+the final hackathon release.
+
+| Field | Value |
+|---|---|
+| Network | Flare Testnet Coston2 |
+| Chain ID | `114` |
+| Deployer | `0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D` |
+| TaskBounty | `0x362Dc83F1E12fFC05b94038A3F052461327B595e` |
+| Reward token | `0x0b6A3645c240605887a5532109323A3E12273dc7` (FTestXRP) |
+| Transaction | `0xe8f83bd5deada6ba5f3987480064e076af9fdb8e4fde5f3f2a3c9f720b397647` |
+| Block | `32872357` |
+| Status | Success |
+| Gas used | `1,568,238` |
+| C2FLR paid | `2.352357` |
+
+- [Contract on Coston2 Explorer](https://coston2-explorer.flare.network/address/0x362Dc83F1E12fFC05b94038A3F052461327B595e)
+- [Deployment transaction on Coston2 Explorer](https://coston2-explorer.flare.network/tx/0xe8f83bd5deada6ba5f3987480064e076af9fdb8e4fde5f3f2a3c9f720b397647)
+
+Public RPC verification after deployment returned:
+
+```text
+chainId:       114
+status:        1 (success)
+runtime code:  6,797 bytes
+rewardToken(): 0x0b6A3645c240605887a5532109323A3E12273dc7
+nextTaskId():  1
+```
+
+The initial deployment was compiled before the repository explicitly pinned
+the EVM target. Its artifact reports `osaka`. Read calls succeeded, but Flare's
+current guidance recommends the `cancun` EVM target. The repository now pins
+`evm_version = "cancun"` for subsequent builds and final deployments.
