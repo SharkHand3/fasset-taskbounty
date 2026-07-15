@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0",
+  "title": "Document the FTestXRP escrow workflow",
+  "description": "Create a concise technical note that explains and verifies the approve, createTask, acceptTask, submitWork, and approveTask flow used by FAsset TaskBounty on Flare Testnet Coston2.",
+  "deliverables": [
+    "A Markdown technical note committed to the public project repository",
+    "The public Coston2 transaction hashes for each workflow step",
+    "Before-and-after FTestXRP balance evidence for creator, TaskBounty, and worker"
+  ],
+  "acceptanceCriteria": [
+    "The note correctly distinguishes allowance from token balance",
+    "The note explains which account signs each transaction",
+    "The recorded TaskBounty state and token balances match public RPC results"
+  ],
+  "reward": {
+    "token": "FTestXRP",
+    "tokenAddress": "0x0b6A3645c240605887a5532109323A3E12273dc7",
+    "amount": "1",
+    "rawAmount": "1000000",
+    "decimals": 6
+  },
+  "network": {
+    "name": "Flare Testnet Coston2",
+    "chainId": 114
+  },
+  "taskBountyContract": "0x6B98d7B6be4934c20bD8CdfdF2bc5Dfb3A454043",
+  "repository": "https://github.com/SharkHand3/fasset-taskbounty"
+}
