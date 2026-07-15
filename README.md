@@ -31,12 +31,13 @@ checks confirmed chain ID `114`, successful runtime bytecode, the expected
 reward token, and `nextTaskId = 1`. The next milestone is executing the full
 approve, create, accept, submit, and release workflow with two test accounts.
 
-### Coston2 integration deployment
+### Current Coston2 integration deployment
 
-- TaskBounty: [`0x362Dc83F1E12fFC05b94038A3F052461327B595e`](https://coston2-explorer.flare.network/address/0x362Dc83F1E12fFC05b94038A3F052461327B595e)
-- Deployment transaction: [`0xe8f83bd5deada6ba5f3987480064e076af9fdb8e4fde5f3f2a3c9f720b397647`](https://coston2-explorer.flare.network/tx/0xe8f83bd5deada6ba5f3987480064e076af9fdb8e4fde5f3f2a3c9f720b397647)
+- TaskBounty: [`0x6B98d7B6be4934c20bD8CdfdF2bc5Dfb3A454043`](https://coston2-explorer.flare.network/address/0x6B98d7B6be4934c20bD8CdfdF2bc5Dfb3A454043)
+- Deployment transaction: [`0x8796ec11c3bbb6ba78fb072bf7ba12cdaa7927ec03574036229e3910cb5171b8`](https://coston2-explorer.flare.network/tx/0x8796ec11c3bbb6ba78fb072bf7ba12cdaa7927ec03574036229e3910cb5171b8)
 - Reward token: `0x0b6A3645c240605887a5532109323A3E12273dc7` (FTestXRP)
 - Network: Flare Testnet Coston2 (`114`)
+- Build target: Solidity `0.8.35`, EVM `cancun`, optimizer enabled with 200 runs
 
 This is an integration deployment used to prove the end-to-end workflow. A
 final submission deployment will follow after the workflow and UI are stable.

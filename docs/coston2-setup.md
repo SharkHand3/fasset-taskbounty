@@ -94,11 +94,47 @@ The encrypted keystore password is requested interactively. The output must
 show chain ID `114`, the FTestXRP reward-token address, and the new TaskBounty
 contract address.
 
-## Initial integration deployment
+## Current Cancun integration deployment
+
+The current integration baseline was deployed on 2026-07-16 after explicitly
+pinning the Flare-recommended Cancun EVM target and enabling the Solidity
+optimizer.
+
+| Field | Value |
+|---|---|
+| Network | Flare Testnet Coston2 |
+| Chain ID | `114` |
+| Build | Solidity `0.8.35`, EVM `cancun`, optimizer 200 runs |
+| Deployer | `0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D` |
+| TaskBounty | `0x6B98d7B6be4934c20bD8CdfdF2bc5Dfb3A454043` |
+| Reward token | `0x0b6A3645c240605887a5532109323A3E12273dc7` (FTestXRP) |
+| Transaction | `0x8796ec11c3bbb6ba78fb072bf7ba12cdaa7927ec03574036229e3910cb5171b8` |
+| Block | `32892383` |
+| Status | Success |
+| Runtime code | `4,005` bytes |
+| Gas used | `965,711` |
+| C2FLR paid | `1.4485665` |
+
+- [Current contract on Coston2 Explorer](https://coston2-explorer.flare.network/address/0x6B98d7B6be4934c20bD8CdfdF2bc5Dfb3A454043)
+- [Current deployment transaction](https://coston2-explorer.flare.network/tx/0x8796ec11c3bbb6ba78fb072bf7ba12cdaa7927ec03574036229e3910cb5171b8)
+
+Public RPC verification returned:
+
+```text
+chainId:       114
+status:        1 (success)
+runtime code:  4,005 bytes
+rewardToken(): 0x0b6A3645c240605887a5532109323A3E12273dc7
+nextTaskId():  1
+```
+
+This is the address used for the upcoming two-account end-to-end escrow test.
+
+## Historical first integration deployment
 
 The first public Coston2 deployment was completed successfully on 2026-07-15.
-It is an integration deployment for running the complete escrow workflow, not
-the final hackathon release.
+It is retained as a learning and audit record and is no longer the current
+integration address.
 
 | Field | Value |
 |---|---|
@@ -126,7 +162,7 @@ rewardToken(): 0x0b6A3645c240605887a5532109323A3E12273dc7
 nextTaskId():  1
 ```
 
-The initial deployment was compiled before the repository explicitly pinned
+This historical deployment was compiled before the repository explicitly pinned
 the EVM target. Its artifact reports `osaka`. Read calls succeeded, but Flare's
 current guidance recommends the `cancun` EVM target. The repository now pins
 `evm_version = "cancun"` for subsequent builds and final deployments.
