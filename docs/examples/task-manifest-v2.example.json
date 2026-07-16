@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "2.0",
+  "title": "Implement an FAsset escrow frontend",
+  "description": "Build the read-only task page and wallet transaction flow for TaskBounty V2.",
+  "deliverables": [
+    "A version-pinned source commit",
+    "A test report",
+    "A public deployment URL"
+  ],
+  "acceptanceCriteria": [
+    "The UI verifies Coston2 chain ID 114",
+    "Displayed artifacts match their on-chain Keccak-256 hashes",
+    "No private key or keystore password is stored by the frontend"
+  ],
+  "reward": {
+    "tokenAddress": "0x0b6A3645c240605887a5532109323A3E12273dc7",
+    "rawAmount": "1000000",
+    "decimals": 6
+  },
+  "network": {
+    "name": "Flare Testnet Coston2",
+    "chainId": 114
+  },
+  "contractVersion": "2.0.0"
+}

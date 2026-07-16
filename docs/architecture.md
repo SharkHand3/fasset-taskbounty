@@ -3,38 +3,59 @@
 ```text
 Browser wallet
     |
-    | JSON-RPC reads and signed transactions
+    | JSON-RPC reads and user-signed transactions
     v
 Flare Testnet Coston2
     |-- FTestXRP ERC-20
-    `-- TaskBounty escrow contract
+    `-- TaskBounty V2 escrow contract
+             |-- metadataURI + metadataHash
+             |-- resultURI + resultHash
+             |-- task state and totalEscrowed
              |
              | events
              v
-       Backend / indexer (later milestone)
+       Backend / indexer
+             |-- selects ABI by deployment version
+             |-- retrieves URI artifacts
+             |-- verifies Keccak-256 commitments
+             |-- builds completion records from chain data
              |
              v
        Query API / database
+
+Off-chain artifact storage
+    |-- content-addressed IPFS / Arweave, or
+    `-- version-pinned Git/object-storage URLs
 ```
 
 ## Deployment surfaces
 
 | Component | Initial environment | Status |
 |---|---|---|
-| Solidity contracts | Foundry / Coston2 | Contract and deployment script ready |
+| Solidity contracts | Foundry / Coston2 | V1 workflow completed; V2 source and deployment script ready |
 | Reward asset | Coston2 FTestXRP | Official address configured |
 | Frontend | Local, then public static hosting | Placeholder |
-| Backend/indexer | Local service | Deferred until the direct chain flow works |
+| Backend/indexer | Local service | Next milestone after the frontend read slice |
 | Source and documentation | [GitHub](https://github.com/SharkHand3/fasset-taskbounty) | Published on `main` |
 | Hackathon submission | DoraHacks BUIDL | Registration complete; submission pending |
 
-## MVP transaction flow
+## V2 transaction and artifact flow
 
 ```text
-Creator approves FTestXRP
-  -> Creator creates task and deposits reward
+Creator finalizes task manifest
+  -> publishes version-pinned/content-addressed metadataURI
+  -> computes metadataHash over exact bytes
+  -> approves FTestXRP
+  -> creates task and deposits the exact reward
   -> Worker accepts task
-  -> Worker submits result URI
+  -> Worker publishes an immutable result manifest
+  -> Worker submits resultURI + resultHash
+  -> Creator/frontend verifies the committed bytes
   -> Creator approves work
   -> TaskBounty transfers FTestXRP to worker
+  -> Indexer builds completion evidence from events and receipts
 ```
+
+The task manifest, worker result, and post-approval completion record are
+separate artifacts. See [`artifact-integrity.md`](artifact-integrity.md) for
+their schemas, hashing rules, and storage recommendations.

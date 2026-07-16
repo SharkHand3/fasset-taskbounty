@@ -6,7 +6,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {TaskBounty} from "../src/TaskBounty.sol";
 
-/// @notice Deploys TaskBounty with Coston2 FTestXRP as the reward token.
+/// @notice Deploys TaskBounty V2 with Coston2 FTestXRP as the reward token.
 contract DeployTaskBounty is Script {
     uint256 internal constant COSTON2_CHAIN_ID = 114;
 
@@ -26,7 +26,9 @@ contract DeployTaskBounty is Script {
         vm.stopBroadcast();
 
         console2.log("TaskBounty:", address(taskBounty));
+        console2.log("Version:", taskBounty.VERSION());
         console2.log("Reward token:", rewardToken);
+        console2.log("Initial total escrowed:", taskBounty.totalEscrowed());
         console2.log("Chain ID:", block.chainid);
     }
 }

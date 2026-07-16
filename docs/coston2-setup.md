@@ -94,7 +94,19 @@ The encrypted keystore password is requested interactively. The output must
 show chain ID `114`, the FTestXRP reward-token address, and the new TaskBounty
 contract address.
 
-## Current Cancun integration deployment
+The deployment script now compiles the V2 contract on `main`. After a future
+V2 deployment, verify the version and initial liability with read-only calls:
+
+```bash
+cast call "$NEW_TASK_BOUNTY" "VERSION()(string)" --rpc-url coston2
+cast call "$NEW_TASK_BOUNTY" "totalEscrowed()(uint256)" --rpc-url coston2
+```
+
+Expected initial values are `"2.0.0"` and `0`. Do not run the deployment until
+the V2 frontend ABI/configuration and artifact manifests are ready for a new
+integration task.
+
+## Completed V1 Cancun integration deployment
 
 The current integration baseline was deployed on 2026-07-16 after explicitly
 pinning the Flare-recommended Cancun EVM target and enabling the Solidity
@@ -128,7 +140,10 @@ rewardToken(): 0x0b6A3645c240605887a5532109323A3E12273dc7
 nextTaskId():  1
 ```
 
-This is the address used for the completed two-account end-to-end escrow test.
+This V1 address was used for the completed two-account end-to-end escrow test.
+The V2 source on `main` has breaking `createTask`, `submitWork`, `TaskCreated`,
+and `WorkSubmitted` signatures, so clients must not use the V2 ABI against this
+historical address.
 
 ## Completed Task #1 escrow workflow
 

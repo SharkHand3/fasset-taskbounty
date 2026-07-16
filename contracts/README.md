@@ -1,6 +1,8 @@
 # FAsset TaskBounty Contracts
 
-Foundry workspace for the TaskBounty escrow contract.
+Foundry workspace for the TaskBounty V2 escrow contract. V2 commits task and
+result artifacts with URI + Keccak-256 hash pairs, tracks `totalEscrowed`, and
+rejects underfunded fee-on-transfer deposits.
 
 ## Install dependencies
 
@@ -17,12 +19,25 @@ forge build
 forge test
 ```
 
+The V2 write signatures are:
+
+```solidity
+createTask(uint256 reward, string metadataURI, bytes32 metadataHash)
+submitWork(uint256 taskId, string resultURI, bytes32 resultHash)
+```
+
+Hash the exact artifact bytes, not the URI text. See
+[`../docs/artifact-integrity.md`](../docs/artifact-integrity.md) before creating
+a V2 task.
+
 ## Coston2
 
 Network and faucet setup is documented in
 [`../docs/coston2-setup.md`](../docs/coston2-setup.md).
 
-After creating and funding the encrypted `coston2-deployer` keystore:
+After creating and funding the encrypted `coston2-deployer` keystore, the
+following command deploys the current V2 source. The completed V1 address
+cannot be upgraded in place:
 
 ```bash
 forge script script/DeployTaskBounty.s.sol:DeployTaskBounty \

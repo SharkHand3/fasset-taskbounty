@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2.0",
+  "taskId": "REPLACE_AFTER_TASK_CREATION",
+  "worker": "0x149e8a5BdF5FdDec7CA1163aefC0bBfF91C9DcAd",
+  "summary": "Replace this template with the final submitted-work summary.",
+  "artifacts": [
+    {
+      "name": "Source code",
+      "uri": "https://github.com/OWNER/REPOSITORY/tree/FULL_COMMIT_HASH",
+      "commit": "FULL_COMMIT_HASH"
+    },
+    {
+      "name": "Test report",
+      "uri": "ipfs://REPLACE_WITH_PINNED_CID"
+    }
+  ]
+}
