@@ -96,12 +96,28 @@ Runnable JSON starting points are in [`docs/examples/`](docs/examples/).
 The generated post-approval record is in
 [`docs/v2-completion-evidence.md`](docs/v2-completion-evidence.md).
 
+### Read-only frontend slice
+
+The `frontend/` application is now a production-buildable Next.js static
+export. It uses Viem and the public Coston2 RPC to display the deployed V2
+version, Task #1 state, escrow liability and FTestXRP balances. It also fetches
+the two version-pinned artifacts as exact byte arrays, recomputes their
+Keccak-256 hashes in the browser and compares them with the on-chain `bytes32`
+commitments.
+
+This slice deliberately has no wallet connection or write transaction yet. It
+proves the public read and integrity-verification path without requesting a
+private key, keystore password, signature or paid RPC credential. The selected
+free host is Cloudflare Pages; see
+[`docs/frontend-hosting.md`](docs/frontend-hosting.md) and
+[`frontend/README.md`](frontend/README.md) for the decision and Git Bash setup.
+
 ## Repository layout
 
 ```text
 web3-taskbounty/
 ├── contracts/            Solidity contracts, scripts, and Foundry tests
-├── frontend/             Wallet-connected web application
+├── frontend/             Next.js static read and artifact-verification app
 ├── backend/              Event indexer and read API
 ├── docs/                 Product and hackathon notes
 └── README.md
