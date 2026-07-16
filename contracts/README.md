@@ -35,6 +35,19 @@ a V2 task.
 Network and faucet setup is documented in
 [`../docs/coston2-setup.md`](../docs/coston2-setup.md).
 
+The completed V2 integration deployment is:
+
+```text
+chainId:      114
+TaskBounty:   0x26281308BE46D9b499579CC8776615C69f29826F
+version:      2.0.0
+rewardToken:  0x0b6A3645c240605887a5532109323A3E12273dc7
+```
+
+V2 Task #1 completed with both artifact hashes matching, status `Completed`,
+`totalEscrowed = 0`, and the full reward paid to the worker. See
+[`../docs/v2-completion-evidence.md`](../docs/v2-completion-evidence.md).
+
 After creating and funding the encrypted `coston2-deployer` keystore, the
 following command deploys the current V2 source. The completed V1 address
 cannot be upgraded in place:

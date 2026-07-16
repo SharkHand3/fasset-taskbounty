@@ -25,15 +25,36 @@ Open -> InProgress -> Submitted -> Completed
   +--------------------------------> Cancelled
 ```
 
-The local tests use a mock ERC-20 token. The Coston2 integration deployment is
-live and bound to the official FTestXRP contract. Task #1 has completed the
-full two-account approve, create, accept, submit, and reward-release workflow.
-Public RPC checks confirmed `Completed` status and final balances of 9/0/1
-FTestXRP for the creator, TaskBounty, and worker. The source contract has since
-advanced to V2 artifact-integrity and escrow-accounting hardening. A new V2
-deployment will precede the wallet-connected frontend write flow.
+The local tests use mock ERC-20 tokens, including an underfunding
+fee-on-transfer case. TaskBounty V2 is now live on Coston2 and bound to the
+official FTestXRP contract. V2 Task #1 completed the full two-account approve,
+create, accept, immutable-result submission, creator verification, and reward
+release workflow. Public RPC checks confirmed `Completed` status,
+`totalEscrowed = 0`, and final balances of 8/0/2 FTestXRP for the creator, V2,
+and worker. The historical V1 workflow remains available as separate evidence.
 
-### Completed V1 Coston2 integration deployment
+### Completed V2 Coston2 integration
+
+- TaskBounty V2: [`0x26281308BE46D9b499579CC8776615C69f29826F`](https://coston2-explorer.flare.network/address/0x26281308BE46D9b499579CC8776615C69f29826F)
+- Deployment transaction: [`0x9534f647676b0ff96e6a881f3a73ca5ee8de9c940fe26d8b18f9c280ff9a0ca8`](https://coston2-explorer.flare.network/tx/0x9534f647676b0ff96e6a881f3a73ca5ee8de9c940fe26d8b18f9c280ff9a0ca8)
+- Contract version: `2.0.0`
+- Reward token: `0x0b6A3645c240605887a5532109323A3E12273dc7` (FTestXRP)
+- Network: Flare Testnet Coston2 (`114`)
+- Runtime code: `4,777` bytes
+
+### Completed V2 Task #1
+
+- [V2 completion evidence](docs/v2-completion-evidence.md)
+- [Machine-readable V2 completion record](docs/v2-completion-record.json)
+- Task manifest hash: `0x346a8ed27a9ace38c3463718bf1043bd2d590a974a86c426fd8f0d245dda534b`
+- Result manifest hash: `0x59f387788cb0121d7a9d6ba319e5580923037dfb3eb8e8e46e0c88cfa81177ce`
+- Worker submission: [`0x3ed6d607294057f41cd05e4190e54174fbd6798b4c382c0ac5fc32f271f27124`](https://coston2-explorer.flare.network/tx/0x3ed6d607294057f41cd05e4190e54174fbd6798b4c382c0ac5fc32f271f27124)
+- Creator approval and payment: [`0xaf9ed72d2b2d5cc9c0f2dec4a726bf7bce7435a8bb15245040e37e8d07814d2c`](https://coston2-explorer.flare.network/tx/0xaf9ed72d2b2d5cc9c0f2dec4a726bf7bce7435a8bb15245040e37e8d07814d2c)
+- Final state: `Completed` (`3`)
+- Final balances: Creator `8`, TaskBounty V2 `0`, Worker `2` FTestXRP
+- Final liability: `totalEscrowed = 0`
+
+### Historical V1 Coston2 integration deployment
 
 - TaskBounty: [`0x6B98d7B6be4934c20bD8CdfdF2bc5Dfb3A454043`](https://coston2-explorer.flare.network/address/0x6B98d7B6be4934c20bD8CdfdF2bc5Dfb3A454043)
 - Deployment transaction: [`0x8796ec11c3bbb6ba78fb072bf7ba12cdaa7927ec03574036229e3910cb5171b8`](https://coston2-explorer.flare.network/tx/0x8796ec11c3bbb6ba78fb072bf7ba12cdaa7927ec03574036229e3910cb5171b8)
@@ -72,6 +93,8 @@ See [`docs/artifact-integrity.md`](docs/artifact-integrity.md) for the real-worl
 artifact workflow, sample manifests, Git Bash hashing command, URI choices,
 completion-record model, and V1/V2 compatibility notes.
 Runnable JSON starting points are in [`docs/examples/`](docs/examples/).
+The generated post-approval record is in
+[`docs/v2-completion-evidence.md`](docs/v2-completion-evidence.md).
 
 ## Repository layout
 

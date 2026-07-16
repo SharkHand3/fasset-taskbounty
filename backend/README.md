@@ -11,3 +11,10 @@ The completion record is generated after approval from public receipts,
 `TaskCompleted`, the reward-token `Transfer`, contract state, and balances. It
 is separate from the worker's immutable result manifest, so a submission never
 needs to predict its future approval transaction hash.
+
+The manually verified reference output for V2 Task #1 is
+[`../docs/v2-completion-evidence.md`](../docs/v2-completion-evidence.md), with
+a machine-readable example in
+[`../docs/v2-completion-record.json`](../docs/v2-completion-record.json). The
+future indexer should reproduce the same fields from chain data rather than
+treating either repository file as a source of truth.

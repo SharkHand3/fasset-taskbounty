@@ -32,7 +32,7 @@ Off-chain artifact storage
 
 | Component | Initial environment | Status |
 |---|---|---|
-| Solidity contracts | Foundry / Coston2 | V1 workflow completed; V2 source and deployment script ready |
+| Solidity contracts | Foundry / Coston2 | V1 retained; V2 deployed and Task #1 completed |
 | Reward asset | Coston2 FTestXRP | Official address configured |
 | Frontend | Local, then public static hosting | Placeholder |
 | Backend/indexer | Local service | Next milestone after the frontend read slice |
@@ -59,3 +59,5 @@ Creator finalizes task manifest
 The task manifest, worker result, and post-approval completion record are
 separate artifacts. See [`artifact-integrity.md`](artifact-integrity.md) for
 their schemas, hashing rules, and storage recommendations.
+The first public V2 completion record is
+[`v2-completion-evidence.md`](v2-completion-evidence.md).

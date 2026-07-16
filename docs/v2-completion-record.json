@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1.0",
+  "network": {
+    "name": "Flare Testnet Coston2",
+    "chainId": 114
+  },
+  "taskBounty": {
+    "address": "0x26281308BE46D9b499579CC8776615C69f29826F",
+    "version": "2.0.0",
+    "taskId": "1"
+  },
+  "participants": {
+    "creator": "0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D",
+    "worker": "0x149e8a5BdF5FdDec7CA1163aefC0bBfF91C9DcAd"
+  },
+  "reward": {
+    "token": "0x0b6A3645c240605887a5532109323A3E12273dc7",
+    "symbol": "FTestXRP",
+    "decimals": 6,
+    "rawAmount": "1000000"
+  },
+  "taskArtifact": {
+    "uri": "https://raw.githubusercontent.com/SharkHand3/fasset-taskbounty/228cdbd14f1280955ce726adc13c2d7540c0c263/docs/v2-integration-task.json",
+    "keccak256": "0x346a8ed27a9ace38c3463718bf1043bd2d590a974a86c426fd8f0d245dda534b"
+  },
+  "resultArtifact": {
+    "uri": "https://raw.githubusercontent.com/SharkHand3/fasset-taskbounty/228cdbd14f1280955ce726adc13c2d7540c0c263/docs/v2-integration-result.json",
+    "keccak256": "0x59f387788cb0121d7a9d6ba319e5580923037dfb3eb8e8e46e0c88cfa81177ce"
+  },
+  "transactions": {
+    "deployment": {
+      "hash": "0x9534f647676b0ff96e6a881f3a73ca5ee8de9c940fe26d8b18f9c280ff9a0ca8",
+      "block": 32928923,
+      "status": 1
+    },
+    "tokenApproval": {
+      "hash": "0xe8e6f0e6e851e3e1d1b1f053682596c3725afc193bc0ce24c20e936c1512b22f",
+      "block": 32928992,
+      "status": 1
+    },
+    "taskCreation": {
+      "hash": "0xf8da7f18075f7d8dae393996aeb7e9f6a9c9704fcb6b6d0be6b3b194f2665a03",
+      "block": 32928999,
+      "status": 1
+    },
+    "taskAcceptance": {
+      "hash": "0xc9a37d99564496dd673d7fe30aef7c88e964cab28c7c1d75d704a10833fcad63",
+      "block": 32929020,
+      "status": 1
+    },
+    "workSubmission": {
+      "hash": "0x3ed6d607294057f41cd05e4190e54174fbd6798b4c382c0ac5fc32f271f27124",
+      "block": 32929029,
+      "status": 1
+    },
+    "creatorApproval": {
+      "hash": "0xaf9ed72d2b2d5cc9c0f2dec4a726bf7bce7435a8bb15245040e37e8d07814d2c",
+      "block": 32929045,
+      "status": 1
+    }
+  },
+  "paymentEvidence": {
+    "transaction": "0xaf9ed72d2b2d5cc9c0f2dec4a726bf7bce7435a8bb15245040e37e8d07814d2c",
+    "erc20TransferLogIndex": 0,
+    "taskCompletedLogIndex": 1,
+    "from": "0x26281308BE46D9b499579CC8776615C69f29826F",
+    "to": "0x149e8a5BdF5FdDec7CA1163aefC0bBfF91C9DcAd",
+    "rawAmount": "1000000"
+  },
+  "finalState": {
+    "block": 32929045,
+    "status": 3,
+    "statusName": "Completed",
+    "totalEscrowed": "0",
+    "allowance": "0",
+    "balances": {
+      "creator": "8000000",
+      "taskBounty": "0",
+      "worker": "2000000"
+    }
+  },
+  "source": {
+    "contractCommit": "10e560281e6a3323d9921bbf746af326083f0107",
+    "manifestCommit": "228cdbd14f1280955ce726adc13c2d7540c0c263",
+    "evidenceMethod": "Public Coston2 receipts, event logs, historical contract reads, and FTestXRP balance reads"
+  }
+}

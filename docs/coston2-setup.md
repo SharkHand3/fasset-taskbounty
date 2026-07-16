@@ -94,17 +94,58 @@ The encrypted keystore password is requested interactively. The output must
 show chain ID `114`, the FTestXRP reward-token address, and the new TaskBounty
 contract address.
 
-The deployment script now compiles the V2 contract on `main`. After a future
-V2 deployment, verify the version and initial liability with read-only calls:
+The deployment script compiles the V2 contract on `main`. After any new V2
+deployment, verify the version and initial liability with read-only calls:
 
 ```bash
 cast call "$NEW_TASK_BOUNTY" "VERSION()(string)" --rpc-url coston2
 cast call "$NEW_TASK_BOUNTY" "totalEscrowed()(uint256)" --rpc-url coston2
 ```
 
-Expected initial values are `"2.0.0"` and `0`. Do not run the deployment until
-the V2 frontend ABI/configuration and artifact manifests are ready for a new
-integration task.
+Expected initial values are `"2.0.0"` and `0`. Each deployment has independent
+task IDs and must be registered with its matching ABI version.
+
+## Completed V2 integration deployment and Task #1
+
+The V2 source and immutable task/result manifests were finalized before the
+public workflow. The contract was then deployed and verified through the
+public RPC.
+
+| Field | Value |
+|---|---|
+| Network | Flare Testnet Coston2 |
+| Chain ID | `114` |
+| Version | `2.0.0` |
+| Deployer | `0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D` |
+| TaskBounty V2 | `0x26281308BE46D9b499579CC8776615C69f29826F` |
+| Reward token | `0x0b6A3645c240605887a5532109323A3E12273dc7` (FTestXRP) |
+| Deployment transaction | `0x9534f647676b0ff96e6a881f3a73ca5ee8de9c940fe26d8b18f9c280ff9a0ca8` |
+| Deployment block | `32928923` |
+| Runtime code | `4,777` bytes |
+| Deployment gas used | `1,132,153` |
+
+- [V2 contract on Coston2 Explorer](https://coston2-explorer.flare.network/address/0x26281308BE46D9b499579CC8776615C69f29826F)
+- [V2 deployment transaction](https://coston2-explorer.flare.network/tx/0x9534f647676b0ff96e6a881f3a73ca5ee8de9c940fe26d8b18f9c280ff9a0ca8)
+
+V2 Task #1 used `1 FTestXRP` and completed:
+
+```text
+Open -> InProgress -> Submitted -> Completed
+```
+
+| Step | Signer | Transaction | Block | Result |
+|---|---|---|---:|---|
+| FTestXRP `approve` | Creator | `0xe8e6f0e6e851e3e1d1b1f053682596c3725afc193bc0ce24c20e936c1512b22f` | `32928992` | Allowance = 1 FTestXRP |
+| V2 `createTask` | Creator | `0xf8da7f18075f7d8dae393996aeb7e9f6a9c9704fcb6b6d0be6b3b194f2665a03` | `32928999` | Exact reward escrowed |
+| `acceptTask` | Worker | `0xc9a37d99564496dd673d7fe30aef7c88e964cab28c7c1d75d704a10833fcad63` | `32929020` | `InProgress` |
+| V2 `submitWork` | Worker | `0x3ed6d607294057f41cd05e4190e54174fbd6798b4c382c0ac5fc32f271f27124` | `32929029` | URI/hash committed; `Submitted` |
+| `approveTask` | Creator | `0xaf9ed72d2b2d5cc9c0f2dec4a726bf7bce7435a8bb15245040e37e8d07814d2c` | `32929045` | `Completed`; reward released |
+
+At block `32929045`, public calls returned status `3`, `totalEscrowed = 0`,
+and FTestXRP balances of Creator `8`, V2 `0`, and Worker `2`. See
+[`v2-completion-evidence.md`](v2-completion-evidence.md) for the artifact
+hashes, decoded business events, historical checkpoints, and reproducible
+Git Bash commands.
 
 ## Completed V1 Cancun integration deployment
 

@@ -201,9 +201,15 @@ but they do not create task liabilities.
 
 - The completed Coston2 Task #1 contract at `0x6B98...4043` is V1 and remains
   valid historical evidence.
-- The source on `main` is now V2 and has a breaking ABI/event change.
-- A new V2 deployment is required before the frontend sends V2 transactions.
+- The source on `main` is V2 and has a breaking ABI/event change.
+- V2 is deployed at `0x26281308BE46D9b499579CC8776615C69f29826F` and its
+  Task #1 completed the URI/hash workflow.
 - An indexer must select the correct ABI by deployment address/version.
+
+The resulting post-approval record is
+[`v2-completion-evidence.md`](v2-completion-evidence.md). It demonstrates that
+the worker result remained immutable while the later approval transaction and
+payment evidence were recorded separately.
 
 V2 improves artifact integrity and escrow accounting. It does not yet add
 deadlines, revision requests, disputes, arbitration, or timeout claims; those
