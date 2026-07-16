@@ -1,9 +1,9 @@
 # FTestXRP Escrow Workflow Evidence
 
-This note records the first end-to-end FAsset TaskBounty workflow on **Flare
-Testnet Coston2**. It is intentionally updated in stages: the worker submits
-this document's stable branch URL first, the creator approves the task, and
-the final transaction and balance evidence is then appended here.
+This note records the first completed end-to-end FAsset TaskBounty workflow on
+**Flare Testnet Coston2**. The worker submitted this document's stable branch
+URL, the creator approved the result, and the escrowed FTestXRP was released
+to the worker.
 
 ## Scope and public identifiers
 
@@ -33,8 +33,8 @@ secret is stored in this repository.
 | `approve(TaskBounty, 1_000_000)` | Creator | FTestXRP | None; allowance only | N/A | Complete |
 | `createTask(1_000_000, metadataURI)` | Creator | TaskBounty | Creator -> TaskBounty | `Open` (`0`) | Complete |
 | `acceptTask(1)` | Worker | TaskBounty | None | `InProgress` (`1`) | Complete |
-| `submitWork(1, resultURI)` | Worker | TaskBounty | None | `Submitted` (`2`) | Pending |
-| `approveTask(1)` | Creator | TaskBounty | TaskBounty -> Worker | `Completed` (`3`) | Pending |
+| `submitWork(1, resultURI)` | Worker | TaskBounty | None | `Submitted` (`2`) | Complete |
+| `approveTask(1)` | Creator | TaskBounty | TaskBounty -> Worker | `Completed` (`3`) | Complete |
 
 ## Transaction evidence
 
@@ -110,23 +110,58 @@ TaskBounty business events and must not be decoded as `TaskAccepted`.
 
 ### 5. Work submission
 
-Pending. The worker will sign `submitWork(1, resultURI)` using this stable URL:
+- Transaction: [`0xb9b590691e94f3f6b8367c39ff12707b6c2dfd8dc8bb93cce53bb4bde8aad993`](https://coston2-explorer.flare.network/tx/0xb9b590691e94f3f6b8367c39ff12707b6c2dfd8dc8bb93cce53bb4bde8aad993)
+- Block: `32925471`
+- Signer: Worker
+- Target: TaskBounty
+- Call: `submitWork(1, resultURI)`
+- Receipt status: `1` (success)
+- Gas used: `145,859`
+
+The submitted stable branch URL is:
 
 ```text
 https://raw.githubusercontent.com/SharkHand3/fasset-taskbounty/main/docs/escrow-workflow-evidence.md
 ```
 
-This call stores the URI, changes the task from `InProgress` to `Submitted`,
-and emits `WorkSubmitted`. It does not move FTestXRP. The branch URL is stable
-but its content can be updated after approval; the final version of this note
-will also record an immutable commit URL.
+The transaction input starts with selector `0xda8accf9`, which matches
+`submitWork(uint256,string)`. The `WorkSubmitted` event has signature topic:
+
+```text
+topic0 = 0xd5d9bc882dc95f198786a74e52a0b87e49a07c80921b74821ba374339e394d30
+topic1 = 0x0000000000000000000000000000000000000000000000000000000000000001
+topic2 = 0x000000000000000000000000149e8a5bdf5fddec7ca1163aefc0bbff91c9dcad
+```
+
+The non-indexed dynamic `string` in `data` decodes to the URL above. This call
+stored the URI, changed the task from `InProgress` to `Submitted`, and emitted
+`WorkSubmitted`. It did not move FTestXRP, so balances remained 9/1/0 for the
+creator, TaskBounty, and worker.
 
 ### 6. Creator approval and reward release
 
-Pending. After verifying the submitted URI, the creator will sign
-`approveTask(1)`. A successful call must change the task to `Completed`, emit
-`TaskCompleted`, and transfer exactly `1 FTestXRP` from TaskBounty to the
-recorded worker.
+- Transaction: [`0x1f6d328ece3dfa179e8a0a513bb88a7f606c753e0531f4ecaa5047ece822c145`](https://coston2-explorer.flare.network/tx/0x1f6d328ece3dfa179e8a0a513bb88a7f606c753e0531f4ecaa5047ece822c145)
+- Block: `32925696`
+- Signer: Creator
+- Target: TaskBounty
+- Call: `approveTask(1)`
+- Receipt status: `1` (success)
+- Gas used: `173,084`
+
+The FTestXRP `Transfer` log records TaskBounty as sender, the worker as
+recipient, and `0x0f4240` (`1,000,000`) as the amount. The TaskBounty event is:
+
+```text
+topic0 = 0x843af93d40addceac6932508439844b897d4df9e971db326d557e3cdaa9f3ebf
+topic1 = 0x0000000000000000000000000000000000000000000000000000000000000001
+topic2 = 0x000000000000000000000000149e8a5bdf5fddec7ca1163aefc0bbff91c9dcad
+data   = 0x00000000000000000000000000000000000000000000000000000000000f4240
+```
+
+This decodes as `TaskCompleted(taskId=1, worker=0x149e...DcAd,
+reward=1_000_000)`. The contract set the task status to `Completed` before the
+external token transfer, then `SafeERC20.safeTransfer` released the escrowed
+reward to the recorded worker.
 
 ## Balance and allowance evidence
 
@@ -137,18 +172,19 @@ listed block. Parentheses show raw six-decimal token units.
 |---|---:|---:|---:|---:|---:|
 | After `approve` | `32892695` | 10 (`10,000,000`) | 0 (`0`) | 0 (`0`) | 1 (`1,000,000`) |
 | After `createTask` | `32893489` | 9 (`9,000,000`) | 1 (`1,000,000`) | 0 (`0`) | 0 (`0`) |
-| After `acceptTask` / current verified state | `32924648` | 9 (`9,000,000`) | 1 (`1,000,000`) | 0 (`0`) | 0 (`0`) |
-| Expected after `approveTask` | Pending | 9 (`9,000,000`) | 0 (`0`) | 1 (`1,000,000`) | 0 (`0`) |
+| After `acceptTask` | `32924648` | 9 (`9,000,000`) | 1 (`1,000,000`) | 0 (`0`) | 0 (`0`) |
+| After `submitWork` | `32925471` | 9 (`9,000,000`) | 1 (`1,000,000`) | 0 (`0`) | 0 (`0`) |
+| After `approveTask` | `32925696` | 9 (`9,000,000`) | 0 (`0`) | 1 (`1,000,000`) | 0 (`0`) |
 
-At block `32924648`, `getTask(1)` returned:
+At block `32925696`, `getTask(1)` returned:
 
 ```text
 creator     = 0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D
 worker      = 0x149e8a5BdF5FdDec7CA1163aefC0bBfF91C9DcAd
 reward      = 1000000
 metadataURI = https://raw.githubusercontent.com/SharkHand3/fasset-taskbounty/849ccd0ebf0d422ff5677117939921add03d20c4/docs/demo-task-1.json
-resultURI   = ""
-status      = 1 (InProgress)
+resultURI   = https://raw.githubusercontent.com/SharkHand3/fasset-taskbounty/main/docs/escrow-workflow-evidence.md
+status      = 3 (Completed)
 exists      = true
 ```
 
@@ -168,18 +204,19 @@ CREATOR=0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D
 WORKER=0x149e8a5BdF5FdDec7CA1163aefC0bBfF91C9DcAd
 
 cast chain-id --rpc-url "$RPC"
-cast receipt 0xae14ea7ce22a45d0134b4e3042f419bdcf498841fbafa07206058bd3d57acd5e --rpc-url "$RPC"
+cast receipt 0xb9b590691e94f3f6b8367c39ff12707b6c2dfd8dc8bb93cce53bb4bde8aad993 --rpc-url "$RPC"
+cast receipt 0x1f6d328ece3dfa179e8a0a513bb88a7f606c753e0531f4ecaa5047ece822c145 --rpc-url "$RPC"
 cast call "$TASK_BOUNTY" \
   "getTask(uint256)((address,address,uint256,string,string,uint8,bool))" 1 \
-  --block 32924648 --rpc-url "$RPC"
+  --block 32925696 --rpc-url "$RPC"
 cast call "$FXRP" "balanceOf(address)(uint256)" "$CREATOR" \
-  --block 32924648 --rpc-url "$RPC"
+  --block 32925696 --rpc-url "$RPC"
 cast call "$FXRP" "balanceOf(address)(uint256)" "$TASK_BOUNTY" \
-  --block 32924648 --rpc-url "$RPC"
+  --block 32925696 --rpc-url "$RPC"
 cast call "$FXRP" "balanceOf(address)(uint256)" "$WORKER" \
-  --block 32924648 --rpc-url "$RPC"
+  --block 32925696 --rpc-url "$RPC"
 cast call "$FXRP" "allowance(address,address)(uint256)" "$CREATOR" "$TASK_BOUNTY" \
-  --block 32924648 --rpc-url "$RPC"
+  --block 32925696 --rpc-url "$RPC"
 ```
 
 `--block` makes a historical query reproducible. Omitting it queries `latest`,
@@ -187,6 +224,6 @@ whose result can change after a later transaction.
 
 ## Final immutable evidence
 
-Pending until `submitWork` and `approveTask` have both succeeded. The final
-update will record both transaction hashes, their relevant decoded events, the
-post-release balances, and a commit-pinned URL for this completed note.
+The completed workflow evidence in this version will be pinned to an immutable
+Git commit. A subsequent documentation-only commit will place that immutable
+URL here without changing any of the chain evidence above.

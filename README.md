@@ -25,11 +25,12 @@ Open -> InProgress -> Submitted -> Completed
   +--------------------------------> Cancelled
 ```
 
-The local tests use a mock ERC-20 token. The first Coston2 integration
-deployment is live and bound to the official FTestXRP contract. Public RPC
-checks confirmed chain ID `114`, successful runtime bytecode, the expected
-reward token, and `nextTaskId = 1`. The next milestone is executing the full
-approve, create, accept, submit, and release workflow with two test accounts.
+The local tests use a mock ERC-20 token. The Coston2 integration deployment is
+live and bound to the official FTestXRP contract. Task #1 has completed the
+full two-account approve, create, accept, submit, and reward-release workflow.
+Public RPC checks confirmed `Completed` status and final balances of 9/0/1
+FTestXRP for the creator, TaskBounty, and worker. The next milestone is a
+wallet-connected frontend for the same state machine.
 
 ### Current Coston2 integration deployment
 
@@ -41,6 +42,14 @@ approve, create, accept, submit, and release workflow with two test accounts.
 
 This is an integration deployment used to prove the end-to-end workflow. A
 final submission deployment will follow after the workflow and UI are stable.
+
+### Completed Coston2 Task #1
+
+- [Full escrow workflow evidence](docs/escrow-workflow-evidence.md)
+- Worker submission: [`0xb9b590691e94f3f6b8367c39ff12707b6c2dfd8dc8bb93cce53bb4bde8aad993`](https://coston2-explorer.flare.network/tx/0xb9b590691e94f3f6b8367c39ff12707b6c2dfd8dc8bb93cce53bb4bde8aad993)
+- Creator approval and payment: [`0x1f6d328ece3dfa179e8a0a513bb88a7f606c753e0531f4ecaa5047ece822c145`](https://coston2-explorer.flare.network/tx/0x1f6d328ece3dfa179e8a0a513bb88a7f606c753e0531f4ecaa5047ece822c145)
+- Final state: `Completed` (`3`)
+- Final balances: Creator `9`, TaskBounty `0`, Worker `1` FTestXRP
 
 ## Repository layout
 

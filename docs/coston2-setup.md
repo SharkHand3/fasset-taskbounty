@@ -128,7 +128,38 @@ rewardToken(): 0x0b6A3645c240605887a5532109323A3E12273dc7
 nextTaskId():  1
 ```
 
-This is the address used for the upcoming two-account end-to-end escrow test.
+This is the address used for the completed two-account end-to-end escrow test.
+
+## Completed Task #1 escrow workflow
+
+Task #1 used `1,000,000` raw units (`1 FTestXRP`) and completed the full state
+machine with separate creator and worker accounts:
+
+```text
+Open -> InProgress -> Submitted -> Completed
+```
+
+| Step | Signer | Transaction | Block | Result |
+|---|---|---|---:|---|
+| FTestXRP `approve` | Creator | `0x607883550a6e513f8d954438d87b4dcf06ee3757773687554a3789be9e3a32b5` | `32892695` | Allowance = 1 FTestXRP |
+| `createTask` | Creator | `0x137944164ac0669c02915368251b1e364fd4bb885561fd798797b0087bd3ad46` | `32893489` | Reward moved into escrow |
+| `acceptTask` | Worker | `0xae14ea7ce22a45d0134b4e3042f419bdcf498841fbafa07206058bd3d57acd5e` | `32919065` | `InProgress` |
+| `submitWork` | Worker | `0xb9b590691e94f3f6b8367c39ff12707b6c2dfd8dc8bb93cce53bb4bde8aad993` | `32925471` | `Submitted` |
+| `approveTask` | Creator | `0x1f6d328ece3dfa179e8a0a513bb88a7f606c753e0531f4ecaa5047ece822c145` | `32925696` | `Completed`; reward released |
+
+Public RPC calls pinned to block `32925696` returned:
+
+```text
+Task #1 status:    3 (Completed)
+Creator balance:   9,000,000 raw units = 9 FTestXRP
+TaskBounty balance:        0 raw units = 0 FTestXRP
+Worker balance:    1,000,000 raw units = 1 FTestXRP
+Allowance:                 0
+```
+
+See [`escrow-workflow-evidence.md`](escrow-workflow-evidence.md) for decoded
+events, historical balances, public explorer links, and reproducible RPC
+commands.
 
 ## Historical first integration deployment
 
