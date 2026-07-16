@@ -224,6 +224,8 @@ whose result can change after a later transaction.
 
 ## Final immutable evidence
 
-The completed workflow evidence in this version will be pinned to an immutable
-Git commit. A subsequent documentation-only commit will place that immutable
-URL here without changing any of the chain evidence above.
+The completed workflow snapshot is pinned at commit
+[`eb88a70582b58b9e55c6bf26a0dc80ace9b88111`](https://raw.githubusercontent.com/SharkHand3/fasset-taskbounty/eb88a70582b58b9e55c6bf26a0dc80ace9b88111/docs/escrow-workflow-evidence.md).
+That commit URL is immutable. The `main` branch URL stored on-chain remains a
+stable path whose content can be updated; this documentation-only update adds
+the immutable pointer without changing the chain evidence above.
