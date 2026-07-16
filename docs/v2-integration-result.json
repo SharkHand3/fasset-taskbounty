@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "2.0",
+  "taskId": "1",
+  "worker": "0x149e8a5BdF5FdDec7CA1163aefC0bBfF91C9DcAd",
+  "summary": "TaskBounty V2 separates task, result, and completion artifacts; binds retrieval URIs to Keccak-256 commitments; tracks total escrow liabilities; and rejects underfunded fee-on-transfer deposits.",
+  "artifacts": [
+    {
+      "name": "TaskBounty V2 source",
+      "uri": "https://github.com/SharkHand3/fasset-taskbounty/blob/10e560281e6a3323d9921bbf746af326083f0107/contracts/src/TaskBounty.sol",
+      "commit": "10e560281e6a3323d9921bbf746af326083f0107"
+    },
+    {
+      "name": "Foundry V2 tests",
+      "uri": "https://github.com/SharkHand3/fasset-taskbounty/blob/10e560281e6a3323d9921bbf746af326083f0107/contracts/test/TaskBounty.t.sol",
+      "commit": "10e560281e6a3323d9921bbf746af326083f0107"
+    },
+    {
+      "name": "Artifact integrity design",
+      "uri": "https://github.com/SharkHand3/fasset-taskbounty/blob/10e560281e6a3323d9921bbf746af326083f0107/docs/artifact-integrity.md",
+      "commit": "10e560281e6a3323d9921bbf746af326083f0107"
+    }
+  ],
+  "verification": {
+    "forgeTestsPassed": 11,
+    "fuzzRuns": 256,
+    "taskBountyLineCoveragePercent": 100,
+    "taskBountyFunctionCoveragePercent": 100,
+    "createTaskSelector": "0x46db42de",
+    "submitWorkSelector": "0x02e0925c"
+  },
+  "completionEvidence": "Generated separately from public receipts, TaskCompleted, FTestXRP Transfer, contract state, and balances after creator approval."
+}

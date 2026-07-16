@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "2.0",
+  "title": "Verify the TaskBounty V2 immutable-artifact escrow workflow",
+  "description": "Execute a Coston2 integration task that binds the task and worker result to exact Keccak-256 content commitments, verifies escrow liabilities, and keeps post-approval transaction evidence separate from the worker deliverable.",
+  "deliverables": [
+    "The version-pinned TaskBounty V2 source and deployment script",
+    "The Foundry V2 business test suite and fee-on-transfer mock",
+    "The artifact-integrity design document and final result manifest"
+  ],
+  "acceptanceCriteria": [
+    "The deployed contract returns VERSION 2.0.0 and the configured FTestXRP reward token",
+    "createTask records this manifest URI and matching metadataHash",
+    "submitWork records the immutable result manifest URI and matching resultHash",
+    "totalEscrowed increases by 1000000 after task creation and returns to zero after approval",
+    "The V2 Foundry suite passes 11 tests including 256 fuzz runs",
+    "The completion transaction and payment evidence are generated after approval and are not required inside the worker result"
+  ],
+  "reward": {
+    "token": "FTestXRP",
+    "tokenAddress": "0x0b6A3645c240605887a5532109323A3E12273dc7",
+    "rawAmount": "1000000",
+    "decimals": 6
+  },
+  "network": {
+    "name": "Flare Testnet Coston2",
+    "chainId": 114
+  },
+  "contractVersion": "2.0.0",
+  "sourceCommit": "10e560281e6a3323d9921bbf746af326083f0107"
+}
