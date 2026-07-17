@@ -34,7 +34,7 @@ Off-chain artifact storage
 |---|---|---|
 | Solidity contracts | Foundry / Coston2 | V1 retained; V2 deployed and Task #1 completed |
 | Reward asset | Coston2 FTestXRP | Official address configured |
-| Frontend | Next.js static export / Cloudflare Pages | Read-only V2 dashboard built and locally verified; public deployment pending |
+| Frontend | [Next.js static export / Cloudflare Pages](https://fasset-taskbounty.pages.dev/) | Read-only V2 dashboard publicly deployed and verified against Coston2 |
 | Backend/indexer | Local service | Next milestone after the frontend read slice |
 | Source and documentation | [GitHub](https://github.com/SharkHand3/fasset-taskbounty) | Published on `main` |
 | Hackathon submission | DoraHacks BUIDL | Registration complete; submission pending |

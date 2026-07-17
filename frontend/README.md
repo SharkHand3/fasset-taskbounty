@@ -3,6 +3,8 @@
 Static Next.js + TypeScript dashboard for the live TaskBounty V2 deployment on
 Flare Testnet Coston2.
 
+**Live site:** <https://fasset-taskbounty.pages.dev/>
+
 ## Current read-only milestone
 
 The browser connects directly to the public Coston2 RPC and displays:
@@ -58,7 +60,7 @@ and use:
 |---|---|
 | Production branch | `main` |
 | Root directory | `frontend` |
-| Framework preset | Next.js (Static HTML Export) |
+| Framework preset | `None` (manual static-export settings) |
 | Build command | `npm run build` |
 | Build output directory | `out` |
 | Node version | read from `.node-version` (`22.16.0`) |
@@ -66,6 +68,11 @@ and use:
 Every push to `main` will rebuild the static dashboard. Pull requests can use
 preview deployments. No environment variables are required; the RPC URL,
 testnet addresses and ABI versions are public configuration.
+
+The first production deployment completed on 2026-07-17 from commit
+`b782ded86a9a184fe8b4f16c41f301b0eb78af2f`. Public verification reproduced
+the completed Task #1 state, 8/0/2 FTestXRP balances, both exact-byte hash
+matches, a working refresh, and no browser console errors or warnings.
 
 See [`../docs/frontend-hosting.md`](../docs/frontend-hosting.md) for the free
 hosting comparison and migration boundaries.

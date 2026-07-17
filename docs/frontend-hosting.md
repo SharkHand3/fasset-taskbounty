@@ -69,13 +69,32 @@ Reference:
 | Git repository | `SharkHand3/fasset-taskbounty` |
 | Production branch | `main` |
 | Root directory | `frontend` |
-| Framework preset | Next.js (Static HTML Export) |
+| Framework preset | `None` (manual static-export settings) |
 | Build command | `npm run build` |
 | Build output directory | `out` |
 
 No secrets are required. `NEXT_PUBLIC_COSTON2_RPC_URL` is supported as an
 optional build-time override, but the default official public RPC is already
 compiled into the frontend.
+
+## Live deployment
+
+- Production URL: <https://fasset-taskbounty.pages.dev/>
+- First successful production deployment: 2026-07-17
+- First deployed Git commit: `b782ded86a9a184fe8b4f16c41f301b0eb78af2f`
+- Build environment detected Node.js `22.16.0` from `.node-version`.
+- GitHub integration access is limited to the `fasset-taskbounty` repository.
+
+The framework preset is intentionally `None` because this repository already
+defines the complete static-export contract: `npm run build` produces `out/`.
+This is operationally equivalent to selecting the static Next.js preset and
+keeps the deployed settings explicit.
+
+The public deployment was checked from a browser against Coston2 Task #1. It
+reported `Completed(3)`, `totalEscrowed=0`, Creator/contract/Worker balances of
+8/0/2 FTestXRP, and matching hashes for both version-pinned artifacts. HTTPS
+returned HTTP 200 with the configured CSP, `X-Content-Type-Options`,
+`Referrer-Policy`, and `Permissions-Policy` headers.
 
 ## Migration boundary
 

@@ -98,6 +98,8 @@ The generated post-approval record is in
 
 ### Read-only frontend slice
 
+**Live Coston2 dashboard:** <https://fasset-taskbounty.pages.dev/>
+
 The `frontend/` application is now a production-buildable Next.js static
 export. It uses Viem and the public Coston2 RPC to display the deployed V2
 version, Task #1 state, escrow liability and FTestXRP balances. It also fetches
@@ -107,8 +109,8 @@ commitments.
 
 This slice deliberately has no wallet connection or write transaction yet. It
 proves the public read and integrity-verification path without requesting a
-private key, keystore password, signature or paid RPC credential. The selected
-free host is Cloudflare Pages; see
+private key, keystore password, signature or paid RPC credential. It is
+deployed on Cloudflare Pages with automatic builds from `main`; see
 [`docs/frontend-hosting.md`](docs/frontend-hosting.md) and
 [`frontend/README.md`](frontend/README.md) for the decision and Git Bash setup.
 
