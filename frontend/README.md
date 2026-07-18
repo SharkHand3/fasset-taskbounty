@@ -5,7 +5,7 @@ Flare Testnet Coston2.
 
 **Live site:** <https://fasset-taskbounty.pages.dev/>
 
-## Current read-only milestone
+## Current public-read and wallet-identity milestone
 
 The browser connects directly to the public Coston2 RPC and displays:
 
@@ -15,9 +15,14 @@ The browser connects directly to the public Coston2 RPC and displays:
 4. Current Creator, TaskBounty and Worker FTestXRP balances.
 5. Exact-byte Keccak-256 verification of both version-pinned GitHub artifacts.
 6. Explicit V1/V2 deployment-to-ABI mapping.
+7. Optional injected EIP-1193 wallet detection and connection.
+8. Connected address, active network, Task #1 role, C2FLR and FTestXRP balance.
 
-No wallet, private key, keystore, signature, paid RPC key or backend is needed
-for this milestone.
+The public dashboard does not need a wallet. Connecting a browser wallet only
+grants the site access to the selected public address and active chain. This
+milestone has no signing, token approval, contract write or gas spending. A
+private key, recovery phrase, keystore password, paid RPC key and backend are
+not needed and must never be entered into the page.
 
 ## Stack
 
@@ -25,6 +30,8 @@ for this milestone.
 - React `19.2.4`
 - TypeScript `5.9.3`
 - Viem `2.55.2`
+- Wagmi `3.7.3`
+- TanStack Query `5.101.2`
 - Vitest `4.1.10`
 - Static export via `output: "export"`
 
@@ -69,6 +76,12 @@ Every push to `main` will rebuild the static dashboard. Pull requests can use
 preview deployments. No environment variables are required; the RPC URL,
 testnet addresses and ABI versions are public configuration.
 
+Injected wallets work in a static deployment because the wallet extension
+adds an EIP-1193 provider to the user's browser. Cloudflare serves only the
+HTML, CSS and JavaScript; it never receives the wallet secret or signs a
+transaction. If no compatible wallet is detected, the page stays fully usable
+for public reads and shows links to the official MetaMask and Rabby sites.
+
 The first production deployment completed on 2026-07-17 from commit
 `b782ded86a9a184fe8b4f16c41f301b0eb78af2f`. Public verification reproduced
 the completed Task #1 state, 8/0/2 FTestXRP balances, both exact-byte hash
@@ -79,11 +92,15 @@ hosting comparison and migration boundaries.
 
 ## Security boundary
 
-- The frontend only uses public `eth_call`/block reads in this milestone.
+- Public task data uses `eth_call`/block reads and remains wallet-free.
+- Wallet connection exposes a selected public address and chain ID only.
+- Coston2 balance reads use the configured public Wagmi/Viem transport rather
+  than asking the wallet to sign or send anything.
 - Artifact verification hashes `Uint8Array` bytes returned by `arrayBuffer()`;
   it does not hash the URI string or parsed JSON.
 - The CSP only permits RPC calls to the official Coston2 endpoint and artifact
   retrieval from `raw.githubusercontent.com`.
-- Future write actions must use an injected wallet and show a user confirmation
-  prompt. Private keys and keystore passwords never belong in frontend code or
-  deployment environment variables.
+- Future write actions must first simulate the contract call, then use the
+  injected wallet's explicit confirmation prompt. Private keys, recovery
+  phrases and keystore passwords never belong in frontend code or deployment
+  environment variables.

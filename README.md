@@ -96,21 +96,24 @@ Runnable JSON starting points are in [`docs/examples/`](docs/examples/).
 The generated post-approval record is in
 [`docs/v2-completion-evidence.md`](docs/v2-completion-evidence.md).
 
-### Read-only frontend slice
+### Public-read and wallet-identity frontend slice
 
 **Live Coston2 dashboard:** <https://fasset-taskbounty.pages.dev/>
 
-The `frontend/` application is now a production-buildable Next.js static
-export. It uses Viem and the public Coston2 RPC to display the deployed V2
-version, Task #1 state, escrow liability and FTestXRP balances. It also fetches
-the two version-pinned artifacts as exact byte arrays, recomputes their
-Keccak-256 hashes in the browser and compares them with the on-chain `bytes32`
+The `frontend/` application is a production-buildable Next.js static export.
+It uses Viem and the public Coston2 RPC to display the deployed V2 version,
+Task #1 state, escrow liability and FTestXRP balances. It also fetches the two
+version-pinned artifacts as exact byte arrays, recomputes their Keccak-256
+hashes in the browser and compares them with the on-chain `bytes32`
 commitments.
 
-This slice deliberately has no wallet connection or write transaction yet. It
-proves the public read and integrity-verification path without requesting a
-private key, keystore password, signature or paid RPC credential. It is
-deployed on Cloudflare Pages with automatic builds from `main`; see
+The current slice also uses Wagmi's injected EIP-1193 connector to detect an
+optional browser wallet. After the user explicitly connects, the page displays
+the selected public address, active network, Task #1 role and Coston2 balances.
+Public reads remain available without a wallet. No signing, token approval,
+contract write or gas spending is enabled yet, and no private key, recovery
+phrase or keystore password is requested or stored. The app is deployed on
+Cloudflare Pages with automatic builds from `main`; see
 [`docs/frontend-hosting.md`](docs/frontend-hosting.md) and
 [`frontend/README.md`](frontend/README.md) for the decision and Git Bash setup.
 

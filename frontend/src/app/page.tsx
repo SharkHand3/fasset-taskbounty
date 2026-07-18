@@ -1,4 +1,5 @@
 import { TaskDashboard } from "@/components/task-dashboard";
+import { WalletPanel } from "@/components/wallet-panel";
 import { activeDeployment } from "@/config/deployments";
 
 import styles from "./page.module.css";
@@ -19,6 +20,7 @@ export default function Home() {
         </a>
 
         <div className={styles.navLinks}>
+          <a href="#wallet-identity">Wallet</a>
           <a href={githubUrl} target="_blank" rel="noreferrer">
             GitHub
           </a>
@@ -30,17 +32,21 @@ export default function Home() {
 
       <section className={styles.hero} id="top">
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Public read-only milestone</p>
-          <h1>Verify an escrow task from chain state to exact artifact bytes.</h1>
+          <p className={styles.eyebrow}>Public reads + wallet identity</p>
+          <h1>Verify an escrow task, then connect without signing.</h1>
           <p className={styles.heroText}>
             This static dashboard reads TaskBounty V2 directly from Flare
             Testnet Coston2, retrieves the committed task and result manifests,
-            and recomputes their Keccak-256 hashes in your browser.
+            recomputes their Keccak-256 hashes, and can detect an optional
+            browser wallet without enabling write actions.
           </p>
 
           <div className={styles.heroActions}>
             <a className={styles.primaryAction} href="#live-dashboard">
               Inspect live task
+            </a>
+            <a className={styles.secondaryAction} href="#wallet-identity">
+              Check wallet identity
             </a>
             <a
               className={styles.secondaryAction}
@@ -53,9 +59,9 @@ export default function Home() {
           </div>
 
           <ul className={styles.proofList} aria-label="Dashboard guarantees">
-            <li>No wallet required</li>
-            <li>No private RPC key</li>
-            <li>No transaction signature</li>
+            <li>Public reads stay wallet-free</li>
+            <li>Wallet connection is optional</li>
+            <li>No write actions enabled</li>
           </ul>
         </div>
 
@@ -83,6 +89,8 @@ export default function Home() {
           </div>
         </aside>
       </section>
+
+      <WalletPanel />
 
       <TaskDashboard />
 

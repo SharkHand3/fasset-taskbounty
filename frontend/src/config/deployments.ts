@@ -30,4 +30,9 @@ export const deployments = {
 export const rewardTokenAddress: Address =
   "0x0b6A3645c240605887a5532109323A3E12273dc7";
 
+export const integrationParticipants = {
+  creator: "0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D",
+  worker: "0x149e8a5BdF5FdDec7CA1163aefC0bBfF91C9DcAd",
+} as const satisfies Record<"creator" | "worker", Address>;
+
 export const activeDeployment = deployments.currentV2;

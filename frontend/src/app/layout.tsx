@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+
+import { Providers } from "@/app/providers";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "FAsset TaskBounty | Coston2 Verification Dashboard",
   description:
-    "A read-only TaskBounty V2 dashboard that verifies Coston2 state and immutable artifact commitments.",
+    "A TaskBounty V2 dashboard that verifies Coston2 state, immutable artifact commitments, and optional browser-wallet identity.",
 };
 
 export default function RootLayout({
@@ -14,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

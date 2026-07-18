@@ -102,6 +102,7 @@ Static Pages hosting is sufficient for:
 
 - public RPC reads;
 - injected-wallet transactions;
+- injected-wallet detection, account permission and chain switching;
 - local transaction-state handling;
 - exact-byte artifact fetching and hash verification;
 - explorer links and portfolio pages.
@@ -116,3 +117,17 @@ Move server-side work to a separate backend/Indexer when the project needs:
 
 The browser frontend must never become a place to store private keys, keystore
 passwords or backend secrets.
+
+## Injected-wallet boundary
+
+The wallet-identity milestone does not change the hosting architecture.
+MetaMask, Rabby or another compatible extension injects an EIP-1193 provider
+into the user's browser. Wagmi discovers that provider and asks the extension
+for account access. The resulting public address and chain ID stay in the
+browser; Cloudflare Pages only serves static files.
+
+The current production bundle contains no contract-write or message-signing
+action. A later write milestone will add preflight simulation and will hand the
+prepared transaction to the extension for an explicit user confirmation. The
+site will still never receive a private key, recovery phrase or keystore
+password.

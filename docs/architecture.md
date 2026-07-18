@@ -34,7 +34,7 @@ Off-chain artifact storage
 |---|---|---|
 | Solidity contracts | Foundry / Coston2 | V1 retained; V2 deployed and Task #1 completed |
 | Reward asset | Coston2 FTestXRP | Official address configured |
-| Frontend | [Next.js static export / Cloudflare Pages](https://fasset-taskbounty.pages.dev/) | Read-only V2 dashboard publicly deployed and verified against Coston2 |
+| Frontend | [Next.js static export / Cloudflare Pages](https://fasset-taskbounty.pages.dev/) | Public V2 reads plus optional injected-wallet identity; no writes yet |
 | Backend/indexer | Local service | Next milestone after the frontend read slice |
 | Source and documentation | [GitHub](https://github.com/SharkHand3/fasset-taskbounty) | Published on `main` |
 | Hackathon submission | DoraHacks BUIDL | Registration complete; submission pending |
@@ -62,7 +62,7 @@ their schemas, hashing rules, and storage recommendations.
 The first public V2 completion record is
 [`v2-completion-evidence.md`](v2-completion-evidence.md).
 
-## Current frontend read path
+## Current frontend read and wallet-identity paths
 
 ```text
 Static Next.js page in the browser
@@ -71,10 +71,19 @@ Static Next.js page in the browser
   -> fetch version-pinned GitHub Raw artifact bytes
        -> Uint8Array -> Keccak-256
        -> compare with metadataHash / resultHash read from V2
+
+Optional browser-wallet path
+  -> Wagmi injected connector discovers EIP-1193 providers
+  -> user approves account access inside the wallet extension
+  -> page receives selected public address + active chain ID
+  -> role classifier compares the address with public Task #1 participants
+  -> Wagmi/Viem public transport reads C2FLR + FTestXRP balances on Coston2
+  -> no signature or transaction is requested in this milestone
 ```
 
 The address-to-ABI mapping is explicit: historical V1 and current V2 are
-different deployments and are never decoded interchangeably. No private key
-or backend secret is present in this read-only slice. The hosting decision and
-future backend boundary are documented in
+different deployments and are never decoded interchangeably. The browser
+wallet keeps custody of all key material; neither the static bundle nor
+Cloudflare receives a private key. The hosting decision and future backend
+boundary are documented in
 [`frontend-hosting.md`](frontend-hosting.md).
