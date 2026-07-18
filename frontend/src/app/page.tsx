@@ -1,3 +1,4 @@
+import { ApprovalPanel } from "@/components/approval-panel";
 import { TaskDashboard } from "@/components/task-dashboard";
 import { WalletPanel } from "@/components/wallet-panel";
 import { activeDeployment } from "@/config/deployments";
@@ -21,6 +22,7 @@ export default function Home() {
 
         <div className={styles.navLinks}>
           <a href="#wallet-identity">Wallet</a>
+          <a href="#approval-preflight">Approve</a>
           <a href={githubUrl} target="_blank" rel="noreferrer">
             GitHub
           </a>
@@ -32,13 +34,14 @@ export default function Home() {
 
       <section className={styles.hero} id="top">
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Public reads + wallet identity</p>
-          <h1>Verify an escrow task, then connect without signing.</h1>
+          <p className={styles.eyebrow}>Public reads + simulation-gated writes</p>
+          <h1>Verify the escrow, then simulate before signing.</h1>
           <p className={styles.heroText}>
             This static dashboard reads TaskBounty V2 directly from Flare
             Testnet Coston2, retrieves the committed task and result manifests,
-            recomputes their Keccak-256 hashes, and can detect an optional
-            browser wallet without enabling write actions.
+            recomputes their Keccak-256 hashes, identifies the connected browser
+            wallet, and prepares one exact testnet allowance only after a
+            public-RPC simulation.
           </p>
 
           <div className={styles.heroActions}>
@@ -47,6 +50,9 @@ export default function Home() {
             </a>
             <a className={styles.secondaryAction} href="#wallet-identity">
               Check wallet identity
+            </a>
+            <a className={styles.secondaryAction} href="#approval-preflight">
+              Review approval preflight
             </a>
             <a
               className={styles.secondaryAction}
@@ -61,7 +67,7 @@ export default function Home() {
           <ul className={styles.proofList} aria-label="Dashboard guarantees">
             <li>Public reads stay wallet-free</li>
             <li>Wallet connection is optional</li>
-            <li>No write actions enabled</li>
+            <li>Exact approval only after simulation</li>
           </ul>
         </div>
 
@@ -91,6 +97,8 @@ export default function Home() {
       </section>
 
       <WalletPanel />
+
+      <ApprovalPanel />
 
       <TaskDashboard />
 

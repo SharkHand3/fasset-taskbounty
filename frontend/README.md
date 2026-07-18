@@ -5,7 +5,7 @@ Flare Testnet Coston2.
 
 **Live site:** <https://fasset-taskbounty.pages.dev/>
 
-## Current public-read and wallet-identity milestone
+## Current public-read, wallet-identity and exact-approval milestone
 
 The browser connects directly to the public Coston2 RPC and displays:
 
@@ -17,12 +17,18 @@ The browser connects directly to the public Coston2 RPC and displays:
 6. Explicit V1/V2 deployment-to-ABI mapping.
 7. Optional injected EIP-1193 wallet detection and connection.
 8. Connected address, active network, Task #1 role, C2FLR and FTestXRP balance.
+9. Creator-to-TaskBounty V2 allowance read through the public Coston2 RPC.
+10. An exact `1 FTestXRP` ERC-20 `approve` simulation and gas estimate.
+11. Explicit transaction-intent review before MetaMask can be opened.
+12. Receipt, `Approval` event and refreshed-allowance verification after broadcast.
 
 The public dashboard does not need a wallet. Connecting a browser wallet only
-grants the site access to the selected public address and active chain. This
-milestone has no signing, token approval, contract write or gas spending. A
-private key, recovery phrase, keystore password, paid RPC key and backend are
-not needed and must never be entered into the page.
+grants the site access to the selected public address and active chain. The
+only enabled write milestone is an exact `approve(TaskBounty V2, 1_000_000)`
+from the dedicated Creator account on chain `114`. It transfers no token and
+does not create Task #2. Simulation is public and gas-free; only the later
+MetaMask confirmation can broadcast and spend C2FLR gas. A private key,
+recovery phrase or keystore password must never be entered into the page.
 
 ## Stack
 
@@ -88,7 +94,10 @@ the completed Task #1 state, 8/0/2 FTestXRP balances, both exact-byte hash
 matches, a working refresh, and no browser console errors or warnings.
 
 See [`../docs/frontend-hosting.md`](../docs/frontend-hosting.md) for the free
-hosting comparison and migration boundaries.
+hosting comparison and migration boundaries. See
+[`../docs/frontend-approval-flow.md`](../docs/frontend-approval-flow.md) for
+the exact write guards, browser-to-chain sequence and reproducible pre-sign
+public checks.
 
 ## Security boundary
 
@@ -96,11 +105,19 @@ hosting comparison and migration boundaries.
 - Wallet connection exposes a selected public address and chain ID only.
 - Coston2 balance reads use the configured public Wagmi/Viem transport rather
   than asking the wallet to sign or send anything.
+- The approval control requires the Creator role, Coston2, a sufficient token
+  balance, an exact amount, a successful simulation returning `true`, a gas
+  estimate and a per-intent review checkbox.
+- Account, chain or allowance changes invalidate the simulated/reviewed intent.
+- The write sends the request returned by `useSimulateContract`; it never asks
+  for an unlimited allowance and never handles a raw private key.
+- Post-broadcast success checks the receipt, exact `Approval` event and a fresh
+  public allowance read.
 - Artifact verification hashes `Uint8Array` bytes returned by `arrayBuffer()`;
   it does not hash the URI string or parsed JSON.
 - The CSP only permits RPC calls to the official Coston2 endpoint and artifact
   retrieval from `raw.githubusercontent.com`.
-- Future write actions must first simulate the contract call, then use the
-  injected wallet's explicit confirmation prompt. Private keys, recovery
-  phrases and keystore passwords never belong in frontend code or deployment
-  environment variables.
+- Every later write action must follow the same simulate, review, wallet
+  confirmation, receipt and public-read verification boundary. Private keys,
+  recovery phrases and keystore passwords never belong in frontend code or
+  deployment environment variables.

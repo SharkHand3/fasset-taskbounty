@@ -120,14 +120,16 @@ passwords or backend secrets.
 
 ## Injected-wallet boundary
 
-The wallet-identity milestone does not change the hosting architecture.
+The wallet-identity and exact-approval milestones do not change the hosting architecture.
 MetaMask, Rabby or another compatible extension injects an EIP-1193 provider
 into the user's browser. Wagmi discovers that provider and asks the extension
 for account access. The resulting public address and chain ID stay in the
 browser; Cloudflare Pages only serves static files.
 
-The current production bundle contains no contract-write or message-signing
-action. A later write milestone will add preflight simulation and will hand the
-prepared transaction to the extension for an explicit user confirmation. The
-site will still never receive a private key, recovery phrase or keystore
-password.
+The exact-approval control uses the public Coston2 transport to read balance and
+allowance, simulate `approve(TaskBounty V2, 1_000_000)` and estimate gas. Only
+after the user reviews the exact intent does Wagmi hand the simulated request to
+the injected extension for confirmation. The extension signs locally and
+broadcasts the transaction; the static site waits for the public receipt and
+checks the exact `Approval` event. Cloudflare still receives no private key,
+recovery phrase or keystore password.

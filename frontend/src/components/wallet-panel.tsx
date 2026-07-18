@@ -123,7 +123,8 @@ export function WalletPanel() {
         </div>
         <p>
           Connection exposes only the selected public address and active chain.
-          This stage has no signing, approval, task creation, or gas spending.
+          Connecting itself has no signing or gas spending; the approval
+          preflight below is a separate, explicit action.
         </p>
       </div>
 
@@ -302,8 +303,8 @@ export function WalletPanel() {
         </article>
         <article>
           <span>03</span>
-          <strong>Writes remain disabled</strong>
-          <p>The next milestone will add simulation before any wallet confirmation.</p>
+          <strong>Writes stay simulation-gated</strong>
+          <p>The exact approval below must pass public-RPC simulation first.</p>
         </article>
       </div>
     </section>
