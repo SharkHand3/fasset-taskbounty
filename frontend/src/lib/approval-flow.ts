@@ -27,6 +27,33 @@ export interface ApprovalReadinessInput {
   role: WalletRole;
 }
 
+export interface ApprovalWalletGateInput {
+  gasEstimateSucceeded: boolean;
+  hasSubmission: boolean;
+  readiness: ApprovalReadiness;
+  reviewed: boolean;
+  simulationPassed: boolean;
+  writePending: boolean;
+}
+
+export function canOpenApprovalWallet({
+  gasEstimateSucceeded,
+  hasSubmission,
+  readiness,
+  reviewed,
+  simulationPassed,
+  writePending,
+}: ApprovalWalletGateInput): boolean {
+  return (
+    readiness === "ready" &&
+    simulationPassed &&
+    gasEstimateSucceeded &&
+    reviewed &&
+    !writePending &&
+    !hasSubmission
+  );
+}
+
 export function getApprovalReadiness({
   allowance,
   balance,

@@ -26,6 +26,7 @@ import {
 } from "@/config/deployments";
 import { coston2 } from "@/config/network";
 import {
+  canOpenApprovalWallet,
   exactApprovalAmount,
   getApprovalIntentKey,
   getApprovalReadiness,
@@ -186,14 +187,16 @@ export function ApprovalPanel() {
   }, [receipt.data, submission]);
 
   const reviewed = reviewedIntentKey === currentIntentKey;
-  const canOpenWallet =
-    readiness === "ready" &&
-    simulationPassed &&
-    gasEstimate.isSuccess &&
-    reviewed &&
-    !writeApproval.isPending &&
-    !receipt.isPending &&
-    submission === null;
+  // A disabled receipt query has TanStack status "pending" before any hash
+  // exists, so submission—not receipt.isPending—is the pre-signing guard.
+  const canOpenWallet = canOpenApprovalWallet({
+    gasEstimateSucceeded: gasEstimate.isSuccess,
+    hasSubmission: submission !== null,
+    readiness,
+    reviewed,
+    simulationPassed,
+    writePending: writeApproval.isPending,
+  });
   const actionError =
     getShortErrorMessage(balance.error) ??
     getShortErrorMessage(allowance.error) ??

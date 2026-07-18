@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { integrationParticipants } from "../config/deployments";
 import {
+  canOpenApprovalWallet,
   exactApprovalAmount,
   getApprovalIntentKey,
   getApprovalReadiness,
@@ -20,6 +21,32 @@ const readyInput = {
 describe("approval flow", () => {
   it("uses an exact one-token amount at six decimals", () => {
     expect(exactApprovalAmount).toBe(1_000_000n);
+  });
+
+  it("opens the wallet only after every pre-signing gate passes", () => {
+    const readyGate = {
+      gasEstimateSucceeded: true,
+      hasSubmission: false,
+      readiness: "ready" as const,
+      reviewed: true,
+      simulationPassed: true,
+      writePending: false,
+    };
+
+    expect(canOpenApprovalWallet(readyGate)).toBe(true);
+    expect(
+      canOpenApprovalWallet({ ...readyGate, gasEstimateSucceeded: false }),
+    ).toBe(false);
+    expect(canOpenApprovalWallet({ ...readyGate, hasSubmission: true })).toBe(
+      false,
+    );
+    expect(canOpenApprovalWallet({ ...readyGate, reviewed: false })).toBe(false);
+    expect(
+      canOpenApprovalWallet({ ...readyGate, simulationPassed: false }),
+    ).toBe(false);
+    expect(canOpenApprovalWallet({ ...readyGate, writePending: true })).toBe(
+      false,
+    );
   });
 
   it("requires connection, Coston2, and the Creator role", () => {
