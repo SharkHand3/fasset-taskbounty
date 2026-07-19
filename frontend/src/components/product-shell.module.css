@@ -1,0 +1,152 @@
+.shell {
+  width: min(1240px, calc(100% - 48px));
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.header {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 34px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: rgba(7, 16, 15, 0.9);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandMark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #071412;
+  background: var(--lime);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-size: 14px;
+}
+
+.brand small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 680;
+}
+
+.nav a:hover {
+  color: var(--text);
+}
+
+.networkBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.networkBadge span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 4px rgba(185, 255, 95, 0.08);
+}
+
+.main {
+  min-height: calc(100vh - 210px);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 90px;
+  padding: 34px 0 42px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer div {
+  display: grid;
+  gap: 7px;
+}
+
+.footer div:last-child {
+  text-align: right;
+}
+
+.footer strong,
+.footer a {
+  color: var(--text);
+}
+
+@media (max-width: 820px) {
+  .shell {
+    width: min(100% - 28px, 1240px);
+  }
+
+  .header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    gap: 18px;
+    padding: 0 0 14px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .networkBadge {
+    justify-self: end;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand small {
+    display: none;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+
+  .footer div:last-child {
+    text-align: left;
+  }
+}

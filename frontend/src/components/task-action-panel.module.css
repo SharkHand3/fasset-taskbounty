@@ -1,0 +1,23 @@
+.panel { padding: 26px; border: 1px solid rgba(185,255,95,.2); border-radius: 20px; background: rgba(185,255,95,.035); }
+.panel > span { color: var(--muted); font-size: 11px; }
+.panel h2 { margin-top: 7px; font-size: 19px; }
+.panel > p { margin-top: 16px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+.notice, .error { margin-top: 15px; padding: 12px; border: 1px solid rgba(255,190,105,.25); border-radius: 10px; color: #ffd7a1; background: rgba(255,190,105,.05); font-size: 11px; line-height: 1.5; }
+.artifactForm { display: grid; gap: 13px; margin-top: 20px; }
+.artifactForm label { display: grid; gap: 7px; }
+.artifactForm label span { color: var(--muted); font-size: 10px; }
+.artifactForm input { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid var(--border-strong); border-radius: 9px; color: var(--text); background: rgba(0,0,0,.18); font-family: var(--font-mono); font-size: 10px; }
+.artifactForm button, .prepare button, .walletButton { min-height: 42px; padding: 0 14px; border: 0; border-radius: 10px; color: #071412; background: var(--lime); font-size: 11px; font-weight: 800; cursor: pointer; }
+.artifactForm button:disabled, .prepare button:disabled, .walletButton:disabled { color: var(--muted); background: rgba(255,255,255,.07); cursor: not-allowed; }
+.artifactForm small { overflow-wrap: anywhere; font-size: 10px; line-height: 1.5; }
+.good { color: var(--lime); }
+.bad { color: #ffd0d0; }
+.prepare { display: grid; gap: 10px; margin-top: 20px; }
+.prepare strong { color: var(--muted); font-family: var(--font-mono); font-size: 10px; }
+.review { display: flex; align-items: flex-start; gap: 9px; margin-top: 16px; padding: 12px; border: 1px solid rgba(185,255,95,.2); border-radius: 10px; font-size: 11px; line-height: 1.5; cursor: pointer; }
+.review input { width: 16px; height: 16px; margin-top: 1px; accent-color: var(--lime); }
+.walletButton { width: 100%; margin-top: 14px; }
+.receipt { display: grid; gap: 7px; margin-top: 15px; padding: 12px; border: 1px solid rgba(185,255,95,.2); border-radius: 10px; font-size: 10px; }
+.receipt a { color: var(--lime); }
+.receipt strong { color: var(--text); }
+.error { border-color: rgba(255,112,112,.28); color: #ffd0d0; background: rgba(255,112,112,.05); }

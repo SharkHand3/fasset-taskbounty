@@ -62,6 +62,38 @@ export const taskBountyV2Abi = [
     outputs: [{ name: "taskId", type: "uint256" }],
   },
   {
+    type: "function",
+    name: "acceptTask",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "taskId", type: "uint256" }],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "submitWork",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "taskId", type: "uint256" },
+      { name: "resultURI", type: "string" },
+      { name: "resultHash", type: "bytes32" },
+    ],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "approveTask",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "taskId", type: "uint256" }],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "cancelTask",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "taskId", type: "uint256" }],
+    outputs: [],
+  },
+  {
     type: "event",
     name: "TaskCreated",
     anonymous: false,
@@ -71,6 +103,46 @@ export const taskBountyV2Abi = [
       { name: "metadataHash", type: "bytes32", indexed: true },
       { name: "reward", type: "uint256", indexed: false },
       { name: "metadataURI", type: "string", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "TaskAccepted",
+    anonymous: false,
+    inputs: [
+      { name: "taskId", type: "uint256", indexed: true },
+      { name: "worker", type: "address", indexed: true },
+    ],
+  },
+  {
+    type: "event",
+    name: "WorkSubmitted",
+    anonymous: false,
+    inputs: [
+      { name: "taskId", type: "uint256", indexed: true },
+      { name: "worker", type: "address", indexed: true },
+      { name: "resultHash", type: "bytes32", indexed: true },
+      { name: "resultURI", type: "string", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "TaskCompleted",
+    anonymous: false,
+    inputs: [
+      { name: "taskId", type: "uint256", indexed: true },
+      { name: "worker", type: "address", indexed: true },
+      { name: "reward", type: "uint256", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "TaskCancelled",
+    anonymous: false,
+    inputs: [
+      { name: "taskId", type: "uint256", indexed: true },
+      { name: "creator", type: "address", indexed: true },
+      { name: "refund", type: "uint256", indexed: false },
     ],
   },
 ] as const;

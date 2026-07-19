@@ -1,151 +1,111 @@
-import { ApprovalPanel } from "@/components/approval-panel";
-import { TaskDashboard } from "@/components/task-dashboard";
-import { TaskCreationPanel } from "@/components/task-creation-panel";
-import { WalletPanel } from "@/components/wallet-panel";
-import { activeDeployment } from "@/config/deployments";
+import Link from "next/link";
+
+import { ProductShell } from "@/components/product-shell";
+import { ProtocolOverviewCard } from "@/components/protocol-overview";
 
 import styles from "./page.module.css";
 
-const githubUrl = "https://github.com/SharkHand3/fasset-taskbounty";
-const explorerUrl = `https://coston2-explorer.flare.network/address/${activeDeployment.address}`;
-
 export default function Home() {
   return (
-    <main className={styles.page}>
-      <nav className={styles.nav} aria-label="Primary navigation">
-        <a className={styles.brand} href="#top" aria-label="TaskBounty home">
-          <span className={styles.brandMark}>TB</span>
-          <span>
-            <strong>FAsset TaskBounty</strong>
-            <small>Coston2 integration</small>
-          </span>
-        </a>
-
-        <div className={styles.navLinks}>
-          <a href="#wallet-identity">Wallet</a>
-          <a href="#approval-preflight">Approve</a>
-          <a href="#create-task-preflight">Create</a>
-          <a href={githubUrl} target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-          <a href={explorerUrl} target="_blank" rel="noreferrer">
-            Explorer
-          </a>
-        </div>
-      </nav>
-
-      <section className={styles.hero} id="top">
+    <ProductShell>
+      <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Public reads + simulation-gated writes</p>
-          <h1>Verify the escrow, then simulate before signing.</h1>
+          <p className={styles.eyebrow}>FAsset-powered work escrow</p>
+          <h1>Fund the outcome. Verify the work. Release on-chain.</h1>
           <p className={styles.heroText}>
-            This static dashboard reads TaskBounty V2 directly from Flare
-            Testnet Coston2, retrieves the committed task and result manifests,
-            recomputes their Keccak-256 hashes, identifies the connected browser
-            wallet, and prepares one exact testnet allowance only after a
-            public-RPC simulation.
+            TaskBounty lets clients lock FTestXRP behind a clear task brief and
+            lets contributors submit verifiable, hash-bound work before payment
+            is released on Coston2.
           </p>
-
           <div className={styles.heroActions}>
-            <a className={styles.primaryAction} href="#live-dashboard">
-              Inspect live task
-            </a>
-            <a className={styles.secondaryAction} href="#wallet-identity">
-              Check wallet identity
-            </a>
-            <a className={styles.secondaryAction} href="#approval-preflight">
-              Review approval preflight
-            </a>
-            <a className={styles.secondaryAction} href="#create-task-preflight">
-              Review task creation
-            </a>
-            <a
-              className={styles.secondaryAction}
-              href={githubUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Review source
-            </a>
+            <Link className={styles.primaryAction} href="/tasks/">
+              Explore bounties
+            </Link>
+            <Link className={styles.secondaryAction} href="/tasks/new/">
+              Post a bounty
+            </Link>
           </div>
-
-          <ul className={styles.proofList} aria-label="Dashboard guarantees">
-            <li>Public reads stay wallet-free</li>
-            <li>Wallet connection is optional</li>
-            <li>Exact approval only after simulation</li>
-          </ul>
+          <div className={styles.trustRow}>
+            <span>No platform custody</span>
+            <span>Exact-byte artifact proofs</span>
+            <span>Public Coston2 settlement</span>
+          </div>
         </div>
 
-        <aside className={styles.heroPanel} aria-label="Current deployment">
-          <div className={styles.networkLine}>
-            <span className={styles.liveDot} aria-hidden="true" />
-            <span>Coston2</span>
-            <code>chainId 114</code>
-          </div>
-          <div className={styles.heroMetric}>
-            <span>Contract version</span>
-            <strong>2.0.0</strong>
-          </div>
-          <div className={styles.heroMetric}>
-            <span>Integration task</span>
-            <strong>#1</strong>
-          </div>
-          <div className={styles.heroMetric}>
-            <span>Expected lifecycle</span>
-            <strong>Completed</strong>
-          </div>
-          <div className={styles.addressBlock}>
-            <span>TaskBounty V2</span>
-            <code>{activeDeployment.address}</code>
-          </div>
-        </aside>
+        <ProtocolOverviewCard />
       </section>
 
-      <WalletPanel />
-
-      <ApprovalPanel />
-
-      <TaskCreationPanel />
-
-      <TaskDashboard />
-
-      <section className={styles.learningSection}>
-        <div>
-          <p className={styles.eyebrow}>What this slice proves</p>
-          <h2>Read operations are public; integrity verification is off-chain.</h2>
+      <section className={styles.valueSection}>
+        <div className={styles.sectionHeading}>
+          <p className={styles.eyebrow}>How TaskBounty works</p>
+          <h2>A simple marketplace flow with verifiable boundaries.</h2>
         </div>
-        <div className={styles.learningGrid}>
+        <div className={styles.valueGrid}>
           <article>
             <span>01</span>
-            <h3>Typed contract reads</h3>
+            <h3>Publish a precise brief</h3>
             <p>
-              Viem encodes V2 ABI calls and decodes the task tuple without a
-              wallet or user gas.
+              The creator stores a retrieval URI and Keccak-256 commitment for
+              the exact task manifest, then deposits the reward into escrow.
             </p>
           </article>
           <article>
             <span>02</span>
-            <h3>Exact-byte commitments</h3>
+            <h3>Deliver committed work</h3>
             <p>
-              The browser hashes downloaded bytes, not the URI text and not a
-              parsed JSON object.
+              A contributor accepts the bounty and submits a separate result
+              URI with its own exact-byte commitment.
             </p>
           </article>
           <article>
             <span>03</span>
-            <h3>Address-aware versions</h3>
+            <h3>Release against evidence</h3>
             <p>
-              V1 and V2 deployments remain separate so the frontend never
-              decodes one contract with the other contract&apos;s ABI.
+              The creator verifies the committed result and releases the escrow
+              to the assigned worker through the contract.
             </p>
           </article>
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <span>FAsset TaskBounty · educational Coston2 testnet project</span>
-        <span>No mainnet funds are used.</span>
-      </footer>
-    </main>
+      <section className={styles.productSection}>
+        <div>
+          <p className={styles.eyebrow}>Built for transparent collaboration</p>
+          <h2>The chain handles settlement; clients handle rich discovery.</h2>
+          <p>
+            Task status, participants, reward liabilities, and settlement stay
+            on-chain. Human-readable briefs and deliverables stay off-chain but
+            are bound to immutable content hashes.
+          </p>
+          <Link href="/tasks/">Browse live on-chain tasks →</Link>
+        </div>
+        <dl>
+          <div>
+            <dt>Escrow</dt>
+            <dd>Exact ERC-20 balance accounting</dd>
+          </div>
+          <div>
+            <dt>Artifacts</dt>
+            <dd>URI + Keccak-256 commitments</dd>
+          </div>
+          <div>
+            <dt>Wallet</dt>
+            <dd>User-controlled signing via EIP-1193</dd>
+          </div>
+          <div>
+            <dt>Verification</dt>
+            <dd>Receipts, events, and public reads</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className={styles.ctaSection}>
+        <div>
+          <p className={styles.eyebrow}>Coston2 beta</p>
+          <h2>Turn a clear deliverable into a funded bounty.</h2>
+        </div>
+        <Link href="/tasks/new/">Create a task</Link>
+      </section>
+    </ProductShell>
   );
 }

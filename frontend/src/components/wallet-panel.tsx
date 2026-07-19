@@ -18,8 +18,6 @@ import { coston2 } from "@/config/network";
 import { erc20ReadAbi } from "@/lib/abi/erc20";
 import {
   getWalletNetworkState,
-  getWalletRole,
-  getWalletRoleLabel,
   shortenAddress,
 } from "@/lib/wallet-identity";
 
@@ -94,7 +92,6 @@ export function WalletPanel() {
     [connectors, readyConnectorUids],
   );
   const networkState = getWalletNetworkState(connection.chainId);
-  const walletRole = getWalletRole(connection.address);
   const connectedAddress = connection.address ?? zeroAddress;
 
   const nativeBalance = useBalance({
@@ -118,13 +115,13 @@ export function WalletPanel() {
     <section className={styles.walletSection} id="wallet-identity">
       <div className={styles.sectionIntro}>
         <div>
-          <p className={styles.eyebrow}>Wallet identity milestone</p>
-          <h2>Connect a browser wallet without sending a transaction.</h2>
+          <p className={styles.eyebrow}>Wallet</p>
+          <h2>Connect your account to take part in a bounty.</h2>
         </div>
         <p>
           Connection exposes only the selected public address and active chain.
-          Connecting itself has no signing or gas spending; the approval
-          preflight below is a separate, explicit action.
+          Connecting itself has no signing or gas spending. Every escrow action
+          has its own simulation, review, and wallet confirmation.
         </p>
       </div>
 
@@ -133,9 +130,7 @@ export function WalletPanel() {
           <div>
             <span className={styles.cardLabel}>Injected EIP-1193 wallet</span>
             <h3>
-              {connection.isConnected
-                ? getWalletRoleLabel(walletRole)
-                : "No account connected"}
+              {connection.isConnected ? "Wallet connected" : "No account connected"}
             </h3>
           </div>
           <span
@@ -256,7 +251,7 @@ export function WalletPanel() {
               </div>
               <div>
                 <dt>Signing capability</dt>
-                <dd>Not used in this milestone</dd>
+                <dd>Available only after explicit transaction review</dd>
               </div>
             </dl>
 
@@ -304,7 +299,7 @@ export function WalletPanel() {
         <article>
           <span>03</span>
           <strong>Writes stay simulation-gated</strong>
-          <p>The exact approval below must pass public-RPC simulation first.</p>
+          <p>Every enabled transaction must pass public-RPC simulation first.</p>
         </article>
       </div>
     </section>

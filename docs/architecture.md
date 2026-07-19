@@ -34,7 +34,7 @@ Off-chain artifact storage
 |---|---|---|
 | Solidity contracts | Foundry / Coston2 | V1 retained; V2 deployed and Task #1 completed |
 | Reward asset | Coston2 FTestXRP | Official address configured |
-| Frontend | [Next.js static export / Cloudflare Pages](https://fasset-taskbounty.pages.dev/) | Public V2 reads, injected-wallet identity, exact approval and guarded Task #2 creation |
+| Frontend | [Next.js static export / Cloudflare Pages](https://fasset-taskbounty.pages.dev/) | Product routes for discovery, publishing, detail, and role-aware lifecycle actions; fixed scenarios isolated in `/lab/` |
 | Backend/indexer | Local service | Next milestone after the frontend read slice |
 | Source and documentation | [GitHub](https://github.com/SharkHand3/fasset-taskbounty) | Published on `main` |
 | Hackathon submission | DoraHacks BUIDL | Registration complete; submission pending |
@@ -62,42 +62,32 @@ their schemas, hashing rules, and storage recommendations.
 The first public V2 completion record is
 [`v2-completion-evidence.md`](v2-completion-evidence.md).
 
-## Current frontend read, wallet-identity and approval paths
+## Current product frontend paths
 
 ```text
-Static Next.js page in the browser
+Product shell
+  -> `/` live protocol overview and value proposition
+  -> `/tasks/` bounded recent-task discovery through public RPC
+  -> `/tasks/view/?id=N` generic task detail and exact-byte artifact checks
+  -> `/tasks/new/` generic manifest, exact approval, and funded creation flow
+  -> `/lab/` fixed integration fixtures and historical regression controls
+
+Public read path
   -> Viem Public Client -> official Coston2 RPC
-       -> VERSION / totalEscrowed / getTask / ERC-20 balanceOf
-  -> fetch version-pinned GitHub Raw artifact bytes
+       -> VERSION / nextTaskId / totalEscrowed / getTask / ERC-20 balanceOf
+  -> fetch version-pinned or content-addressed artifact bytes
        -> Uint8Array -> Keccak-256
        -> compare with metadataHash / resultHash read from V2
 
-Optional browser-wallet path
+Optional write path
   -> Wagmi injected connector discovers EIP-1193 providers
-  -> user approves account access inside the wallet extension
-  -> page receives selected public address + active chain ID
-  -> role classifier compares the address with public Task #1 participants
-  -> Wagmi/Viem public transport reads C2FLR + FTestXRP balances on Coston2
-
-Creator exact-approval path
-  -> public transport reads balanceOf + allowance
-  -> role/network/balance guards must pass
-  -> useSimulateContract runs approve(V2, 1_000_000) as eth_call
-  -> useEstimateGas estimates the exact prepared calldata
-  -> user verifies token, spender, chain and amount
-  -> injected wallet displays and signs only after explicit confirmation
-  -> public RPC waits for the receipt
-  -> frontend decodes the exact Approval event and refreshes allowance
-
-Creator Task #2 creation path
-  -> browser retrieves the pinned task manifest and verifies exact-byte hash
-  -> public transport reads balance, exact allowance, nextTaskId and totalEscrowed
-  -> useSimulateContract runs createTask(1_000_000, URI, hash) as eth_call
-  -> simulation must predict taskId 2; the same calldata receives a Gas estimate
-  -> user verifies chain, V2 target, task ID, reward, URI and metadata hash
-  -> injected wallet signs only after the separate exact-escrow confirmation
-  -> public RPC waits for receipt and frontend decodes the exact TaskCreated event
-  -> balances, allowance, nextTaskId and totalEscrowed are refreshed
+  -> user grants only account access and selects Coston2
+  -> frontend derives creator/worker/participant role per live task
+  -> product exposes only the action allowed by status + role
+  -> public RPC simulates exact calldata before the wallet can open
+  -> user reviews intent inside the page and independently in the wallet
+  -> wallet signs and broadcasts without exposing private key material
+  -> frontend waits for receipt, decodes the exact lifecycle event, and refreshes state
 ```
 
 The address-to-ABI mapping is explicit: historical V1 and current V2 are
@@ -106,4 +96,5 @@ wallet keeps custody of all key material; neither the static bundle nor
 Cloudflare receives a private key. ERC-20 `approve` changes allowance only; it
 is distinct from TaskBounty `approveTask`, which completes submitted work and
 pays the worker. The hosting decision and future backend boundary are documented in
-[`frontend-hosting.md`](frontend-hosting.md).
+[`frontend-hosting.md`](frontend-hosting.md). Product route boundaries and beta
+limitations are documented in [`product-architecture.md`](product-architecture.md).

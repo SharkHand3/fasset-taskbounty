@@ -1,0 +1,92 @@
+.card {
+  position: relative;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 90% 110%, rgba(185, 255, 95, 0.14), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+    var(--panel);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.28);
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.heading div > span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.heading strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 18px;
+}
+
+.live {
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: var(--lime);
+  background: var(--lime-soft);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.card dl {
+  display: grid;
+  gap: 0;
+}
+
+.card dl > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 21px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.card dl > div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.card dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.card dd {
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.error {
+  display: grid;
+  gap: 10px;
+  padding-top: 22px;
+  color: #ffd0d0;
+  font-size: 12px;
+}
+
+.error button {
+  width: max-content;
+  padding: 8px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+}

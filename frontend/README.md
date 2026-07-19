@@ -1,38 +1,28 @@
 # FAsset TaskBounty Frontend
 
-Static Next.js + TypeScript dashboard for the live TaskBounty V2 deployment on
+Static Next.js + TypeScript product for the live TaskBounty V2 deployment on
 Flare Testnet Coston2.
 
 **Live site:** <https://fasset-taskbounty.pages.dev/>
 
-## Current public-read, wallet-identity, approval and task-creation milestone
+## Product routes
 
-The browser connects directly to the public Coston2 RPC and displays:
+| Route | Purpose |
+|---|---|
+| `/` | Product landing page and live protocol overview |
+| `/tasks/` | Recent-task marketplace with status filters |
+| `/tasks/view/?id=N` | Generic task detail, exact-byte verification, dynamic role, and lifecycle action |
+| `/tasks/new/` | Deterministic brief generation, exact approval, and funded task creation |
+| `/lab/` | Fixed Task #1/Task #2 QA fixtures retained for regression testing |
 
-1. Chain ID and latest observed block.
-2. TaskBounty `VERSION()`, `nextTaskId()` and `totalEscrowed()`.
-3. V2 Task #1 creator, worker, reward, status and URI/hash commitments.
-4. Current Creator, TaskBounty and Worker FTestXRP balances.
-5. Exact-byte Keccak-256 verification of both version-pinned GitHub artifacts.
-6. Explicit V1/V2 deployment-to-ABI mapping.
-7. Optional injected EIP-1193 wallet detection and connection.
-8. Connected address, active network, Task #1 role, C2FLR and FTestXRP balance.
-9. Creator-to-TaskBounty V2 allowance read through the public Coston2 RPC.
-10. An exact `1 FTestXRP` ERC-20 `approve` simulation and gas estimate.
-11. Explicit transaction-intent review before MetaMask can be opened.
-12. Receipt, `Approval` event and refreshed-allowance verification after broadcast.
-13. Exact-byte verification of the pinned Task #2 Creator manifest.
-14. A guarded `createTask(1_000_000, metadataURI, metadataHash)` simulation.
-15. Predicted task ID, Gas, exact escrow intent and `TaskCreated` receipt checks.
-
-The public dashboard does not need a wallet. Connecting a browser wallet only
-grants the site access to the selected public address and active chain. The
-first write milestone grants an exact `approve(TaskBounty V2, 1_000_000)` from
-the dedicated Creator account. The second prepares `createTask`, which will
-consume that allowance and move exactly 1 FTestXRP into V2 escrow only after a
-separate simulation, review and MetaMask confirmation. Simulation is public
-and gas-free. A private key, recovery phrase or keystore password must never be
-entered into the page.
+The marketplace and detail pages do not require a wallet. Connecting an
+injected wallet exposes only the selected public address and active chain. The
+product derives creator, assigned worker, or participant role separately for
+each live task and exposes only the action allowed by the current contract
+state. Every write is gated by public-RPC simulation and explicit intent
+review, then verified against the expected receipt event. A private key,
+recovery phrase, keystore file, or wallet password must never be entered into
+the page.
 
 ## Stack
 
@@ -97,13 +87,11 @@ The first production deployment completed on 2026-07-17 from commit
 the completed Task #1 state, 8/0/2 FTestXRP balances, both exact-byte hash
 matches, a working refresh, and no browser console errors or warnings.
 
-See [`../docs/frontend-hosting.md`](../docs/frontend-hosting.md) for the free
-hosting comparison and migration boundaries. See
-[`../docs/frontend-approval-flow.md`](../docs/frontend-approval-flow.md) for
-the exact approval guards. The separate
+See [`../docs/product-architecture.md`](../docs/product-architecture.md) for
+the route boundaries, trust model, and beta limitations. The older
+[`../docs/frontend-approval-flow.md`](../docs/frontend-approval-flow.md) and
 [`../docs/frontend-task-creation-flow.md`](../docs/frontend-task-creation-flow.md)
-records the pinned Task #2 manifest, creation guards, unsigned simulation and
-post-transaction invariants.
+describe the deterministic fixtures now isolated in `/lab/`.
 
 ## Security boundary
 
@@ -111,23 +99,22 @@ post-transaction invariants.
 - Wallet connection exposes a selected public address and chain ID only.
 - Coston2 balance reads use the configured public Wagmi/Viem transport rather
   than asking the wallet to sign or send anything.
-- The approval control requires the Creator role, Coston2, a sufficient token
-  balance, an exact amount, a successful simulation returning `true`, a gas
-  estimate and a per-intent review checkbox.
-- Account, chain or allowance changes invalidate the simulated/reviewed intent.
-- The write sends the request returned by `useSimulateContract`; it never asks
-  for an unlimited allowance and never handles a raw private key.
-- Post-broadcast success checks the receipt, exact `Approval` event and a fresh
-  public allowance read.
-- The Task #2 creation control additionally requires `nextTaskId == 2`,
-  `totalEscrowed == 0`, exact allowance, a verified pinned manifest, a
-  simulation predicting task ID 2, Gas estimation and explicit escrow review.
-- Post-creation success must include the exact `TaskCreated` event plus fresh
-  balance, allowance, task ID and escrow-liability reads.
+- Generic task creation requires Coston2, a sufficient token balance, an exact
+  selected allowance, a verified manifest, a predicted live `nextTaskId`, gas
+  estimation, and a per-intent review checkbox.
+- Account, chain, allowance, task state, reward, URI, or hash changes invalidate
+  the corresponding simulated/reviewed intent.
+- Lifecycle controls derive authorization from live task status and participant
+  addresses, then simulate `acceptTask`, `submitWork`, `approveTask`, or
+  `cancelTask` before opening the wallet.
+- Writes use requests returned by `useSimulateContract`; the app never asks for
+  an unlimited allowance and never handles a raw private key.
+- Post-broadcast success decodes the action-specific contract event and refreshes
+  the relevant public state.
 - Artifact verification hashes `Uint8Array` bytes returned by `arrayBuffer()`;
   it does not hash the URI string or parsed JSON.
-- The CSP only permits RPC calls to the official Coston2 endpoint and artifact
-  retrieval from `raw.githubusercontent.com`.
+- Artifact fetches accept IPFS, Arweave, and version-pinned GitHub Raw URIs;
+  the CSP permits only their configured HTTPS gateways plus the official RPC.
 - Every later write action must follow the same simulate, review, wallet
   confirmation, receipt and public-read verification boundary. Private keys,
   recovery phrases and keystore passwords never belong in frontend code or

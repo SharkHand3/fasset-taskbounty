@@ -96,36 +96,38 @@ Runnable JSON starting points are in [`docs/examples/`](docs/examples/).
 The generated post-approval record is in
 [`docs/v2-completion-evidence.md`](docs/v2-completion-evidence.md).
 
-### Public-read, wallet-identity and guarded-write frontend slice
+### Product frontend and integration lab
 
 **Live Coston2 dashboard:** <https://fasset-taskbounty.pages.dev/>
 
-The `frontend/` application is a production-buildable Next.js static export.
-It uses Viem and the public Coston2 RPC to display the deployed V2 version,
-Task #1 state, escrow liability and FTestXRP balances. It also fetches the two
-version-pinned artifacts as exact byte arrays, recomputes their Keccak-256
-hashes in the browser and compares them with the on-chain `bytes32`
-commitments.
+The `frontend/` application is a production-buildable Next.js static export
+with a product surface and a deliberately separate QA surface:
 
-The current slice also uses Wagmi's injected EIP-1193 connector to detect an
-optional browser wallet. After the user explicitly connects, the page displays
-the selected public address, active network, Task #1 role and Coston2 balances.
-Public reads remain available without a wallet. The first write control prepares
-only `approve(TaskBounty V2, 1_000_000)` for the dedicated Creator on Coston2.
-It requires a public-RPC simulation returning `true`, a gas estimate and an
-explicit intent checkbox before MetaMask can open. The page then verifies the
-receipt, exact `Approval` event and refreshed allowance. It never requests or
-stores a private key, recovery phrase or keystore password. The second write
-control verifies a version-pinned Task #2 manifest, reads the exact allowance
-and escrow baseline, simulates `createTask`, predicts task ID 2, estimates Gas
-and requires an explicit 1 FTestXRP escrow review. After broadcast it verifies
-the exact `TaskCreated` event and refreshes the affected public state. The app is deployed
-on Cloudflare Pages with automatic builds from `main`; see
+- `/` explains the value proposition and reads live protocol totals.
+- `/tasks/` discovers recent tasks from the current V2 deployment.
+- `/tasks/view/?id=<id>` renders any existing task, verifies artifacts, derives
+  the connected account's role from live task participants, and exposes only
+  the lifecycle action that role and status allow.
+- `/tasks/new/` builds a deterministic manifest, verifies the published exact
+  bytes, prepares an exact reward-token allowance, and creates a funded task.
+- `/lab/` preserves fixed Task #1 and Task #2 scenarios as regression fixtures;
+  those IDs are no longer assumptions in the customer-facing product.
+
+Viem performs public Coston2 reads and exact-byte Keccak-256 verification.
+Wagmi discovers an injected EIP-1193 wallet and opens it only after the relevant
+contract call has passed a public-RPC simulation and the user has explicitly
+reviewed the intent. The generic lifecycle supports `acceptTask`, `submitWork`,
+`approveTask`, and `cancelTask`; receipts are checked against the exact expected
+contract event before the UI reports confirmation. Private keys, recovery
+phrases, keystore files, and wallet passwords never enter the application.
+
+The app is deployed on Cloudflare Pages with automatic builds from `main`; see
 [`docs/frontend-hosting.md`](docs/frontend-hosting.md) and
 [`frontend/README.md`](frontend/README.md) for the decision and Git Bash setup.
-The first write boundary is specified in
-[`docs/frontend-approval-flow.md`](docs/frontend-approval-flow.md); Task #2
-creation is specified in
+The product boundary and remaining beta limitations are documented in
+[`docs/product-architecture.md`](docs/product-architecture.md). Historical
+fixed-fixture write boundaries remain specified in
+[`docs/frontend-approval-flow.md`](docs/frontend-approval-flow.md) and
 [`docs/frontend-task-creation-flow.md`](docs/frontend-task-creation-flow.md).
 
 ## Repository layout
