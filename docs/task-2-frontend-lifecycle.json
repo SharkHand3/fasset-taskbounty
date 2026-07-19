@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "2.0",
+  "title": "Complete the TaskBounty V2 frontend participant lifecycle",
+  "description": "Extend the deployed Coston2 frontend workflow from Creator-funded task creation through Worker acceptance and immutable result submission, while keeping final payment evidence separate from the Worker deliverable.",
+  "deliverables": [
+    "A version-pinned Task #2 result manifest containing the Worker deliverables",
+    "Frontend controls that simulate and review acceptTask and submitWork before requesting a wallet signature",
+    "Public Coston2 receipt and event evidence for the Worker acceptance and result submission"
+  ],
+  "acceptanceCriteria": [
+    "The Creator deposits exactly 1000000 FTestXRP units into TaskBounty V2 for Task #2",
+    "The Worker accepts Task #2 from the dedicated Worker test account",
+    "The submitted resultURI is version-pinned and its exact bytes match resultHash",
+    "The frontend verifies the expected TaskCreated, TaskAccepted, and WorkSubmitted events",
+    "The Worker deliverable does not require the future approveTask transaction hash",
+    "Final payment evidence is generated separately after Creator approval"
+  ],
+  "reward": {
+    "token": "FTestXRP",
+    "tokenAddress": "0x0b6A3645c240605887a5532109323A3E12273dc7",
+    "rawAmount": "1000000",
+    "decimals": 6
+  },
+  "network": {
+    "name": "Flare Testnet Coston2",
+    "chainId": 114
+  },
+  "taskBounty": {
+    "address": "0x26281308BE46D9b499579CC8776615C69f29826F",
+    "version": "2.0.0",
+    "expectedTaskId": "2"
+  },
+  "sourceBaselineCommit": "46d42baaab28ec3f77139e30c937bc8b9b513dcb"
+}
