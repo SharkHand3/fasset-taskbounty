@@ -115,3 +115,59 @@ After this approval is confirmed, the Creator still owns `8 FTestXRP`. A later
 move exactly `1 FTestXRP` into escrow and consumes the allowance. That later
 write will receive its own simulation, intent review, wallet confirmation,
 receipt and public-state verification.
+
+## Public Coston2 execution evidence
+
+The approval was executed from the production frontend on 2026-07-20 after the
+Creator connected MetaMask on Coston2 and reviewed the exact transaction intent.
+
+| Field | Verified value |
+|---|---|
+| Transaction | `0x0ebb34a89e70793f5e5eb929ff3a1d337171ff0ddffb1fcfd11893b60a1cbbcc` |
+| Block | `33030088` |
+| Receipt status | `1 (success)` |
+| From | `0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D` |
+| To | `0x0b6A3645c240605887a5532109323A3E12273dc7` |
+| Simulated gas | `51,609` |
+| Actual gas used | `51,217` |
+| Effective gas price | `650 gwei` |
+| Transaction fee | `0.03329105 C2FLR` |
+
+The receipt contained the exact event:
+
+```text
+Approval(
+  owner   = 0x43bb96F5bc968A5878C54fDcb6D599D2cccf6a2D,
+  spender = 0x26281308BE46D9b499579CC8776615C69f29826F,
+  value   = 1_000_000
+)
+```
+
+Post-transaction reads returned:
+
+```text
+allowance(Creator, TaskBounty V2) = 1,000,000
+Creator FTestXRP                  = 8,000,000
+TaskBounty V2 FTestXRP            = 0
+Worker FTestXRP                   = 2,000,000
+```
+
+The unchanged FTestXRP balances confirm that `approve` granted permission but
+did not transfer escrow. The Creator's native C2FLR balance decreased from
+`92.4565358125` to `92.4232447625` because the signed transaction consumed gas.
+The official Coston2 RPC and an independent Routescan Coston2 proxy returned the
+same receipt block hash, status, gas usage, `Approval` log and final allowance.
+
+During this test we intended to exercise the wallet-rejection branch first, but
+the user confirmed the MetaMask request. Therefore the successful approval path
+is fully verified on the public testnet; the rejection branch is covered by the
+frontend error mapping and unit tests but was not completed as a browser-wallet
+end-to-end test. We did not send a second state-changing transaction solely to
+recreate that negative case.
+
+The production bug found immediately before this test was that a disabled
+`useWaitForTransactionReceipt` query can still expose TanStack Query's initial
+`isPending` state. Treating it as an active submitted transaction kept the wallet
+button locked forever. Commit `46d42ba` now uses submission state, rather than an
+inactive receipt query's initial state, as the pre-sign guard. ESLint, TypeScript,
+18 Vitest tests and the static production build passed after the fix.
