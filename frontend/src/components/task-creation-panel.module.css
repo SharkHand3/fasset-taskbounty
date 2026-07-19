@@ -1,0 +1,373 @@
+.creationSection {
+  margin-top: 72px;
+  padding: 64px 0;
+  border-top: 1px solid var(--border);
+}
+
+.sectionIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 48px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin-bottom: 14px;
+  color: #78cfff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sectionIntro h2 {
+  max-width: 800px;
+  color: var(--text);
+  font-size: clamp(32px, 4.5vw, 54px);
+  line-height: 1.06;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.sectionIntro > p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.sectionIntro code,
+.creationCard code {
+  color: #a7ddff;
+  font-family: var(--font-mono);
+}
+
+.creationCard {
+  margin-top: 34px;
+  padding: 30px;
+  border: 1px solid rgba(120, 207, 255, 0.3);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(120, 207, 255, 0.05), transparent 45%),
+    var(--panel);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
+}
+
+.cardHeading,
+.reviewHeading,
+.manifestArea,
+.simulationArea,
+.writeArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cardHeading span,
+.reviewHeading span,
+.manifestArea span,
+.simulationArea span,
+.receiptArea > span,
+.postState > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.cardHeading h3,
+.reviewHeading h3 {
+  margin-top: 6px;
+  color: var(--text);
+  font-size: 20px;
+}
+
+.statusPill,
+.valuePill {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border: 1px solid rgba(120, 207, 255, 0.3);
+  border-radius: 999px;
+  color: #a7ddff;
+  background: rgba(120, 207, 255, 0.07);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.statusReady {
+  border-color: rgba(185, 255, 95, 0.32);
+  color: var(--lime);
+  background: rgba(185, 255, 95, 0.07);
+}
+
+.readinessMessage {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.guardGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.guardGrid article,
+.educationGrid article {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.guardGrid span,
+.educationGrid article > span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.guardGrid strong {
+  display: block;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.manifestArea,
+.simulationArea,
+.writeArea,
+.postState {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.manifestArea strong,
+.simulationArea strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.manifestArea small {
+  display: block;
+  max-width: 680px;
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+  color: #ffd0d0;
+  font-size: 11px;
+}
+
+.manifestArea button,
+.simulationArea button,
+.writeArea button,
+.postState button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 11px;
+  color: #071412;
+  background: var(--lime);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.manifestArea button:disabled,
+.simulationArea button:disabled,
+.writeArea button:disabled,
+.postState button:disabled {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.07);
+  cursor: not-allowed;
+}
+
+.transactionReview {
+  margin-top: 26px;
+  padding: 24px;
+  border: 1px solid var(--border-strong);
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.transactionReview dl,
+.postState dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 28px;
+  margin-top: 18px;
+}
+
+.transactionReview dl > div,
+.postState dl > div {
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+}
+
+.transactionReview dt,
+.postState dt {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.transactionReview dd,
+.postState dd {
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.transactionReview a {
+  color: #a7ddff;
+  font-family: var(--font-mono);
+}
+
+.reviewCheck {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(185, 255, 95, 0.25);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+.reviewCheck input {
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  accent-color: var(--lime);
+}
+
+.writeArea p {
+  max-width: 610px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.receiptArea,
+.errorBanner {
+  display: grid;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 14px;
+}
+
+.receiptArea {
+  border: 1px solid rgba(185, 255, 95, 0.26);
+  background: rgba(185, 255, 95, 0.04);
+}
+
+.receiptArea a {
+  overflow-wrap: anywhere;
+  color: var(--lime);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.receiptArea strong {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.errorBanner {
+  border: 1px solid rgba(255, 112, 112, 0.3);
+  color: #ffd0d0;
+  background: rgba(255, 112, 112, 0.06);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.postState button {
+  margin-top: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.educationGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.educationGrid article > span {
+  color: #78cfff;
+  font-family: var(--font-mono);
+}
+
+.educationGrid strong {
+  display: block;
+  margin-top: 18px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.educationGrid p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+@media (max-width: 940px) {
+  .sectionIntro,
+  .transactionReview dl,
+  .postState dl {
+    grid-template-columns: 1fr;
+  }
+
+  .guardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .educationGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .creationSection {
+    padding: 48px 0;
+  }
+
+  .creationCard {
+    padding: 20px;
+  }
+
+  .cardHeading,
+  .reviewHeading,
+  .manifestArea,
+  .simulationArea,
+  .writeArea {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .guardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .manifestArea button,
+  .simulationArea button,
+  .writeArea button,
+  .postState button {
+    width: 100%;
+  }
+}

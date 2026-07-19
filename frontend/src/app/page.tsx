@@ -1,5 +1,6 @@
 import { ApprovalPanel } from "@/components/approval-panel";
 import { TaskDashboard } from "@/components/task-dashboard";
+import { TaskCreationPanel } from "@/components/task-creation-panel";
 import { WalletPanel } from "@/components/wallet-panel";
 import { activeDeployment } from "@/config/deployments";
 
@@ -23,6 +24,7 @@ export default function Home() {
         <div className={styles.navLinks}>
           <a href="#wallet-identity">Wallet</a>
           <a href="#approval-preflight">Approve</a>
+          <a href="#create-task-preflight">Create</a>
           <a href={githubUrl} target="_blank" rel="noreferrer">
             GitHub
           </a>
@@ -53,6 +55,9 @@ export default function Home() {
             </a>
             <a className={styles.secondaryAction} href="#approval-preflight">
               Review approval preflight
+            </a>
+            <a className={styles.secondaryAction} href="#create-task-preflight">
+              Review task creation
             </a>
             <a
               className={styles.secondaryAction}
@@ -99,6 +104,8 @@ export default function Home() {
       <WalletPanel />
 
       <ApprovalPanel />
+
+      <TaskCreationPanel />
 
       <TaskDashboard />
 

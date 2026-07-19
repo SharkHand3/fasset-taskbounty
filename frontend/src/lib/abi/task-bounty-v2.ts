@@ -50,4 +50,27 @@ export const taskBountyV2Abi = [
       },
     ],
   },
+  {
+    type: "function",
+    name: "createTask",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "reward", type: "uint256" },
+      { name: "metadataURI", type: "string" },
+      { name: "metadataHash", type: "bytes32" },
+    ],
+    outputs: [{ name: "taskId", type: "uint256" }],
+  },
+  {
+    type: "event",
+    name: "TaskCreated",
+    anonymous: false,
+    inputs: [
+      { name: "taskId", type: "uint256", indexed: true },
+      { name: "creator", type: "address", indexed: true },
+      { name: "metadataHash", type: "bytes32", indexed: true },
+      { name: "reward", type: "uint256", indexed: false },
+      { name: "metadataURI", type: "string", indexed: false },
+    ],
+  },
 ] as const;

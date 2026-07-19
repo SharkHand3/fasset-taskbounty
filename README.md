@@ -96,7 +96,7 @@ Runnable JSON starting points are in [`docs/examples/`](docs/examples/).
 The generated post-approval record is in
 [`docs/v2-completion-evidence.md`](docs/v2-completion-evidence.md).
 
-### Public-read, wallet-identity and exact-approval frontend slice
+### Public-read, wallet-identity and guarded-write frontend slice
 
 **Live Coston2 dashboard:** <https://fasset-taskbounty.pages.dev/>
 
@@ -115,12 +115,18 @@ only `approve(TaskBounty V2, 1_000_000)` for the dedicated Creator on Coston2.
 It requires a public-RPC simulation returning `true`, a gas estimate and an
 explicit intent checkbox before MetaMask can open. The page then verifies the
 receipt, exact `Approval` event and refreshed allowance. It never requests or
-stores a private key, recovery phrase or keystore password. The app is deployed
+stores a private key, recovery phrase or keystore password. The second write
+control verifies a version-pinned Task #2 manifest, reads the exact allowance
+and escrow baseline, simulates `createTask`, predicts task ID 2, estimates Gas
+and requires an explicit 1 FTestXRP escrow review. After broadcast it verifies
+the exact `TaskCreated` event and refreshes the affected public state. The app is deployed
 on Cloudflare Pages with automatic builds from `main`; see
 [`docs/frontend-hosting.md`](docs/frontend-hosting.md) and
 [`frontend/README.md`](frontend/README.md) for the decision and Git Bash setup.
 The first write boundary is specified in
-[`docs/frontend-approval-flow.md`](docs/frontend-approval-flow.md).
+[`docs/frontend-approval-flow.md`](docs/frontend-approval-flow.md); Task #2
+creation is specified in
+[`docs/frontend-task-creation-flow.md`](docs/frontend-task-creation-flow.md).
 
 ## Repository layout
 

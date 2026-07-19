@@ -5,7 +5,7 @@ Flare Testnet Coston2.
 
 **Live site:** <https://fasset-taskbounty.pages.dev/>
 
-## Current public-read, wallet-identity and exact-approval milestone
+## Current public-read, wallet-identity, approval and task-creation milestone
 
 The browser connects directly to the public Coston2 RPC and displays:
 
@@ -21,14 +21,18 @@ The browser connects directly to the public Coston2 RPC and displays:
 10. An exact `1 FTestXRP` ERC-20 `approve` simulation and gas estimate.
 11. Explicit transaction-intent review before MetaMask can be opened.
 12. Receipt, `Approval` event and refreshed-allowance verification after broadcast.
+13. Exact-byte verification of the pinned Task #2 Creator manifest.
+14. A guarded `createTask(1_000_000, metadataURI, metadataHash)` simulation.
+15. Predicted task ID, Gas, exact escrow intent and `TaskCreated` receipt checks.
 
 The public dashboard does not need a wallet. Connecting a browser wallet only
 grants the site access to the selected public address and active chain. The
-only enabled write milestone is an exact `approve(TaskBounty V2, 1_000_000)`
-from the dedicated Creator account on chain `114`. It transfers no token and
-does not create Task #2. Simulation is public and gas-free; only the later
-MetaMask confirmation can broadcast and spend C2FLR gas. A private key,
-recovery phrase or keystore password must never be entered into the page.
+first write milestone grants an exact `approve(TaskBounty V2, 1_000_000)` from
+the dedicated Creator account. The second prepares `createTask`, which will
+consume that allowance and move exactly 1 FTestXRP into V2 escrow only after a
+separate simulation, review and MetaMask confirmation. Simulation is public
+and gas-free. A private key, recovery phrase or keystore password must never be
+entered into the page.
 
 ## Stack
 
@@ -96,8 +100,10 @@ matches, a working refresh, and no browser console errors or warnings.
 See [`../docs/frontend-hosting.md`](../docs/frontend-hosting.md) for the free
 hosting comparison and migration boundaries. See
 [`../docs/frontend-approval-flow.md`](../docs/frontend-approval-flow.md) for
-the exact write guards, browser-to-chain sequence and reproducible pre-sign
-public checks.
+the exact approval guards. The separate
+[`../docs/frontend-task-creation-flow.md`](../docs/frontend-task-creation-flow.md)
+records the pinned Task #2 manifest, creation guards, unsigned simulation and
+post-transaction invariants.
 
 ## Security boundary
 
@@ -113,6 +119,11 @@ public checks.
   for an unlimited allowance and never handles a raw private key.
 - Post-broadcast success checks the receipt, exact `Approval` event and a fresh
   public allowance read.
+- The Task #2 creation control additionally requires `nextTaskId == 2`,
+  `totalEscrowed == 0`, exact allowance, a verified pinned manifest, a
+  simulation predicting task ID 2, Gas estimation and explicit escrow review.
+- Post-creation success must include the exact `TaskCreated` event plus fresh
+  balance, allowance, task ID and escrow-liability reads.
 - Artifact verification hashes `Uint8Array` bytes returned by `arrayBuffer()`;
   it does not hash the URI string or parsed JSON.
 - The CSP only permits RPC calls to the official Coston2 endpoint and artifact

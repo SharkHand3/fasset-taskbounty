@@ -34,7 +34,7 @@ Off-chain artifact storage
 |---|---|---|
 | Solidity contracts | Foundry / Coston2 | V1 retained; V2 deployed and Task #1 completed |
 | Reward asset | Coston2 FTestXRP | Official address configured |
-| Frontend | [Next.js static export / Cloudflare Pages](https://fasset-taskbounty.pages.dev/) | Public V2 reads, injected-wallet identity and simulation-gated exact approval |
+| Frontend | [Next.js static export / Cloudflare Pages](https://fasset-taskbounty.pages.dev/) | Public V2 reads, injected-wallet identity, exact approval and guarded Task #2 creation |
 | Backend/indexer | Local service | Next milestone after the frontend read slice |
 | Source and documentation | [GitHub](https://github.com/SharkHand3/fasset-taskbounty) | Published on `main` |
 | Hackathon submission | DoraHacks BUIDL | Registration complete; submission pending |
@@ -88,6 +88,16 @@ Creator exact-approval path
   -> injected wallet displays and signs only after explicit confirmation
   -> public RPC waits for the receipt
   -> frontend decodes the exact Approval event and refreshes allowance
+
+Creator Task #2 creation path
+  -> browser retrieves the pinned task manifest and verifies exact-byte hash
+  -> public transport reads balance, exact allowance, nextTaskId and totalEscrowed
+  -> useSimulateContract runs createTask(1_000_000, URI, hash) as eth_call
+  -> simulation must predict taskId 2; the same calldata receives a Gas estimate
+  -> user verifies chain, V2 target, task ID, reward, URI and metadata hash
+  -> injected wallet signs only after the separate exact-escrow confirmation
+  -> public RPC waits for receipt and frontend decodes the exact TaskCreated event
+  -> balances, allowance, nextTaskId and totalEscrowed are refreshed
 ```
 
 The address-to-ABI mapping is explicit: historical V1 and current V2 are
