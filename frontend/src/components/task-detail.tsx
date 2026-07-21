@@ -6,6 +6,10 @@ import { formatUnits, zeroHash } from "viem";
 import { useConnection } from "wagmi";
 
 import {
+  rewardTokenDecimals,
+  rewardTokenSymbol,
+} from "@/config/deployments";
+import {
   fetchAndVerifyArtifact,
   fetchAndVerifyJsonArtifact,
   type ArtifactVerification,
@@ -151,8 +155,18 @@ export function TaskDetail() {
         </div>
         <aside>
           <span>Reward</span>
-          <strong>{formatUnits(task.reward, 6)} FTestXRP</strong>
-          <small>Held by TaskBounty while the workflow is active</small>
+          <strong>
+            {formatUnits(task.reward, rewardTokenDecimals)} {rewardTokenSymbol}
+          </strong>
+          <small>
+            {task.status <= 2 && "Currently held by TaskBounty escrow"}
+            {task.status === 3 && "Released to the assigned worker"}
+            {task.status === 4 && "Refunded to the creator"}
+            {task.status > 4 && "Settlement state is not recognized"}
+          </small>
+          <button onClick={() => void load(task.id)} type="button">
+            Refresh chain and artifacts
+          </button>
         </aside>
       </section>
 
@@ -293,7 +307,11 @@ export function TaskDetail() {
             </dl>
           </article>
 
-          <TaskActionPanel onConfirmed={() => void load(task.id)} task={task} />
+          <TaskActionPanel
+            onConfirmed={() => void load(task.id)}
+            resultVerified={resultVerified}
+            task={task}
+          />
         </aside>
       </section>
     </>

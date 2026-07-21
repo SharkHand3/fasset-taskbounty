@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { getAvailableTaskAction } from "./task-action";
+import {
+  getAvailableTaskAction,
+  isTaskActionEvidenceReady,
+} from "./task-action";
 
 describe("getAvailableTaskAction", () => {
   it("maps open tasks to accept or creator cancellation", () => {
@@ -19,5 +22,11 @@ describe("getAvailableTaskAction", () => {
     expect(getAvailableTaskAction(0, "participant", false)).toBeNull();
     expect(getAvailableTaskAction(3, "creator", true)).toBeNull();
     expect(getAvailableTaskAction(4, "creator", true)).toBeNull();
+  });
+
+  it("blocks creator payment until the result commitment is verified", () => {
+    expect(isTaskActionEvidenceReady("approve", false)).toBe(false);
+    expect(isTaskActionEvidenceReady("approve", true)).toBe(true);
+    expect(isTaskActionEvidenceReady("submit", false)).toBe(true);
   });
 });

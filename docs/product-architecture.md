@@ -27,6 +27,9 @@ introducing a server solely for routing.
 1. Public reads use the configured Coston2 RPC and require no wallet.
 2. Rich briefs and results live off-chain, while exact UTF-8 bytes are bound to
    on-chain Keccak-256 commitments.
+   Browser retrieval is limited to 1 MiB per artifact and 15 seconds per
+   request so an untrusted URI cannot consume unbounded memory or keep a
+   product read pending indefinitely.
 3. The frontend never receives a private key, recovery phrase, keystore, or
    wallet password.
 4. Every write is simulated against public state before its wallet button is
@@ -42,7 +45,7 @@ introducing a server solely for routing.
 Creator: approve exact reward -> createTask -> [approveTask | cancelTask]
 Participant: acceptTask -> becomes assigned Worker
 Worker: submitWork with verified URI + hash
-Creator: verify result -> approveTask -> reward released
+Creator: verify the committed result bytes -> approveTask -> reward released
 ```
 
 Available controls are derived from the live task status and its creator and
@@ -67,6 +70,10 @@ worker addresses. No product action is authorized by a global hard-coded role.
 - Direct browser RPC and artifact requests depend on provider availability and
   CORS. The future query API should provide resilient indexed reads while chain
   state remains the settlement source of truth.
+- The current create workflow is intentionally implemented in one client
+  component. It should be split into manifest, allowance, transaction, and
+  receipt modules when managed uploads or additional settlement options are
+  added; doing that earlier would add indirection without a second use case.
 
 ## Why `/lab/` remains
 

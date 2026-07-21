@@ -1,9 +1,16 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { ProductShell } from "@/components/product-shell";
 import { TaskMarket } from "@/components/task-market";
 
 import styles from "./tasks.module.css";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/tasks/" },
+  description: "Explore funded, hash-verified work bounties on Coston2.",
+  title: "Explore bounties",
+};
 
 export default function TasksPage() {
   return (

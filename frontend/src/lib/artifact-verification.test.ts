@@ -2,7 +2,11 @@ import { readFile } from "node:fs/promises";
 
 import { describe, expect, it } from "vitest";
 
-import { verifyArtifactBytes } from "./artifact-verification";
+import {
+  MAX_ARTIFACT_BYTES,
+  readArtifactResponseBytes,
+  verifyArtifactBytes,
+} from "./artifact-verification";
 
 const taskHash =
   "0x346a8ed27a9ace38c3463718bf1043bd2d590a974a86c426fd8f0d245dda534b";
@@ -41,5 +45,21 @@ describe("artifact byte verification", () => {
 
     expect(verification.matches).toBe(false);
     expect(verification.actualHash).not.toBe(taskHash);
+  });
+
+  it("reads a bounded response body", async () => {
+    const bytes = await readArtifactResponseBytes(
+      new Response(new Uint8Array([1, 2, 3])),
+    );
+
+    expect(Array.from(bytes)).toEqual([1, 2, 3]);
+  });
+
+  it("rejects an artifact larger than the browser safety limit", async () => {
+    await expect(
+      readArtifactResponseBytes(
+        new Response(new Uint8Array(MAX_ARTIFACT_BYTES + 1)),
+      ),
+    ).rejects.toThrow("byte limit");
   });
 });

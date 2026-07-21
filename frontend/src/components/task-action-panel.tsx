@@ -13,7 +13,11 @@ import { activeDeployment } from "@/config/deployments";
 import { coston2 } from "@/config/network";
 import { taskBountyV2Abi } from "@/lib/abi/task-bounty-v2";
 import { fetchAndVerifyArtifact } from "@/lib/artifact-verification";
-import { getAvailableTaskAction, type TaskAction } from "@/lib/task-action";
+import {
+  getAvailableTaskAction,
+  isTaskActionEvidenceReady,
+  type TaskAction,
+} from "@/lib/task-action";
 import type { ChainTask } from "@/lib/task-reader";
 import { getTaskRole } from "@/lib/task-role";
 import { parseContentHash } from "@/lib/task-publishing";
@@ -76,7 +80,15 @@ function errorMessage(error: unknown): string | null {
   return "The transaction did not complete.";
 }
 
-export function TaskActionPanel({ onConfirmed, task }: { onConfirmed: () => void; task: ChainTask }) {
+export function TaskActionPanel({
+  onConfirmed,
+  resultVerified,
+  task,
+}: {
+  onConfirmed: () => void;
+  resultVerified: boolean;
+  task: ChainTask;
+}) {
   const connection = useConnection();
   const account = connection.address;
   const action = getAction(task, account);
@@ -95,7 +107,13 @@ export function TaskActionPanel({ onConfirmed, task }: { onConfirmed: () => void
   const resultHash = useMemo(() => parseContentHash(resultHashInput), [resultHashInput]);
   const artifactKey = `${resultURI.trim()}:${resultHash?.toLowerCase() ?? "invalid"}`;
   const intentKey = `${account?.toLowerCase() ?? "disconnected"}:${connection.chainId ?? "none"}:${task.id}:${task.status}:${action ?? "none"}:${artifactKey}`;
-  const baseReady = Boolean(action && account && networkState === "coston2");
+  const approvalEvidenceReady = isTaskActionEvidenceReady(
+    action,
+    resultVerified,
+  );
+  const baseReady = Boolean(
+    action && account && networkState === "coston2" && approvalEvidenceReady,
+  );
   const submitArtifactReady =
     action !== "submit" ||
     (verificationState === "verified" && verifiedArtifactKey === artifactKey);
@@ -260,11 +278,18 @@ export function TaskActionPanel({ onConfirmed, task }: { onConfirmed: () => void
       <h2>{copy?.title}</h2>
       <p>{copy?.description}</p>
       {networkState !== "coston2" && <div className={styles.notice}>Switch the connected wallet to Coston2 below.</div>}
+      {action === "approve" && !resultVerified && (
+        <div className={styles.notice}>
+          The committed result bytes must pass Keccak-256 verification before
+          payment can be prepared. Retry the artifact request or inspect the
+          result through a trusted gateway.
+        </div>
+      )}
 
       {action === "submit" && (
         <div className={styles.artifactForm}>
-          <label><span>Version-pinned result URI</span><input onChange={(event) => { setResultURI(event.target.value); setVerificationState("idle"); }} placeholder="ipfs://… or https://…/commit/result.json" value={resultURI} /></label>
-          <label><span>Keccak-256 result hash</span><input onChange={(event) => { setResultHashInput(event.target.value); setVerificationState("idle"); }} placeholder={`0x${"00".repeat(32)}`} value={resultHashInput} /></label>
+          <label><span>Version-pinned result URI</span><input maxLength={2_048} onChange={(event) => { setResultURI(event.target.value); setVerificationState("idle"); }} placeholder="ipfs://… or https://…/commit/result.json" value={resultURI} /></label>
+          <label><span>Keccak-256 result hash</span><input maxLength={66} onChange={(event) => { setResultHashInput(event.target.value); setVerificationState("idle"); }} placeholder={`0x${"00".repeat(32)}`} value={resultHashInput} /></label>
           <button disabled={!resultHash || !resultURI.trim() || verificationState === "checking"} onClick={() => void verifyResult()} type="button">{verificationState === "checking" ? "Verifying…" : "Verify result bytes"}</button>
           {verificationMessage && <small className={verificationState === "verified" ? styles.good : styles.bad}>{verificationMessage}</small>}
         </div>

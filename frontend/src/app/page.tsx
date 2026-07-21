@@ -1,9 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { ProductShell } from "@/components/product-shell";
 import { ProtocolOverviewCard } from "@/components/protocol-overview";
 
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

@@ -129,6 +129,9 @@ The product boundary and remaining beta limitations are documented in
 fixed-fixture write boundaries remain specified in
 [`docs/frontend-approval-flow.md`](docs/frontend-approval-flow.md) and
 [`docs/frontend-task-creation-flow.md`](docs/frontend-task-creation-flow.md).
+The latest cross-layer quality audit, fixes, verification gates, and remaining
+risks are recorded in
+[`docs/current-stage-quality-review.md`](docs/current-stage-quality-review.md).
 
 ## Repository layout
 

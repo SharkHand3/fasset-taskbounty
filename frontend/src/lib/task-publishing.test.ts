@@ -17,6 +17,7 @@ describe("parseRewardInput", () => {
     expect(parseRewardInput("-1")).toBeNull();
     expect(parseRewardInput("1.0000001")).toBeNull();
     expect(parseRewardInput("one")).toBeNull();
+    expect(parseRewardInput(`${2n ** 256n}`)).toBeNull();
   });
 });
 

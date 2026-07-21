@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { formatUnits } from "viem";
 
+import {
+  rewardTokenDecimals,
+  rewardTokenSymbol,
+} from "@/config/deployments";
 import {
   fetchAndVerifyJsonArtifact,
   type ArtifactVerification,
@@ -26,6 +30,7 @@ type Filter = "active" | "all" | "completed" | "open";
 
 interface MarketTask {
   artifactError?: string;
+  artifactLoading?: boolean;
   manifest?: TaskManifestView;
   task: ChainTask;
   verification?: ArtifactVerification;
@@ -68,29 +73,49 @@ export function TaskMarket() {
   const [tasks, setTasks] = useState<MarketTask[]>([]);
   const [overview, setOverview] = useState<ProtocolOverview | null>(null);
   const [loading, setLoading] = useState(true);
+  const [enriching, setEnriching] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const requestSequence = useRef(0);
 
   const load = useCallback(async () => {
+    const requestId = ++requestSequence.current;
     setLoading(true);
+    setEnriching(false);
     try {
       const chainData = await readRecentTasks();
+      if (requestId !== requestSequence.current) return;
       setOverview(chainData.overview);
-      setTasks(await Promise.all(chainData.tasks.map(enrichTask)));
+      setTasks(
+        chainData.tasks.map((task) => ({ artifactLoading: true, task })),
+      );
       setError(null);
+      setLoading(false);
+      setEnriching(true);
+
+      const enrichedTasks = await Promise.all(chainData.tasks.map(enrichTask));
+      if (requestId !== requestSequence.current) return;
+      setTasks(enrichedTasks);
     } catch (requestError) {
+      if (requestId !== requestSequence.current) return;
       setError(
         requestError instanceof Error
           ? requestError.message
           : "Unable to read the task market.",
       );
     } finally {
-      setLoading(false);
+      if (requestId === requestSequence.current) {
+        setLoading(false);
+        setEnriching(false);
+      }
     }
   }, []);
 
   useEffect(() => {
     const initialLoad = window.setTimeout(() => void load(), 0);
-    return () => window.clearTimeout(initialLoad);
+    return () => {
+      window.clearTimeout(initialLoad);
+      requestSequence.current += 1;
+    };
   }, [load]);
 
   const visibleTasks = useMemo(
@@ -125,7 +150,7 @@ export function TaskMarket() {
           <span>Escrow liability</span>
           <strong>
             {overview
-              ? `${formatUnits(overview.totalEscrowed, 6)} FTestXRP`
+              ? `${formatUnits(overview.totalEscrowed, rewardTokenDecimals)} ${rewardTokenSymbol}`
               : "—"}
           </strong>
         </div>
@@ -145,8 +170,16 @@ export function TaskMarket() {
             </button>
           ))}
         </div>
-        <button disabled={loading} onClick={() => void load()} type="button">
-          {loading ? "Syncing Coston2…" : "Refresh"}
+        <button
+          disabled={loading || enriching}
+          onClick={() => void load()}
+          type="button"
+        >
+          {loading
+            ? "Syncing Coston2…"
+            : enriching
+              ? "Verifying briefs…"
+              : "Refresh"}
         </button>
       </div>
 
@@ -165,14 +198,14 @@ export function TaskMarket() {
         </div>
       )}
 
-      <div className={styles.grid} aria-busy={loading}>
+      <div className={styles.grid} aria-busy={loading || enriching}>
         {loading &&
           Array.from({ length: 3 }, (_, index) => (
             <article className={styles.skeleton} key={index} aria-hidden="true" />
           ))}
 
         {!loading &&
-          visibleTasks.map(({ artifactError, manifest, task, verification }) => {
+          visibleTasks.map(({ artifactError, artifactLoading, manifest, task, verification }) => {
             const status = getTaskStatusLabel(task.status);
             const verified = verification?.matches === true;
 
@@ -184,15 +217,23 @@ export function TaskMarket() {
                     {status}
                   </span>
                 </div>
-                <h2>{manifest?.title ?? `On-chain Task #${task.id.toString()}`}</h2>
+                <h2>
+                  {artifactLoading
+                    ? `Reading Task #${task.id.toString()} brief…`
+                    : manifest?.title ?? `On-chain Task #${task.id.toString()}`}
+                </h2>
                 <p className={styles.description}>
-                  {manifest?.description ??
-                    "The committed brief is unavailable or failed integrity verification."}
+                  {artifactLoading
+                    ? "The on-chain task is available while its committed brief is verified."
+                    : manifest?.description ??
+                      "The committed brief is unavailable or failed integrity verification."}
                 </p>
 
                 <div className={styles.reward}>
                   <span>Reward</span>
-                  <strong>{formatUnits(task.reward, 6)} FTestXRP</strong>
+                  <strong>
+                    {formatUnits(task.reward, rewardTokenDecimals)} {rewardTokenSymbol}
+                  </strong>
                 </div>
 
                 <dl>
@@ -203,7 +244,13 @@ export function TaskMarket() {
                   <div>
                     <dt>Brief integrity</dt>
                     <dd className={verified ? styles.verified : styles.unverified}>
-                      {verified ? "Verified" : artifactError ? "Unavailable" : "Mismatch"}
+                      {artifactLoading
+                        ? "Checking"
+                        : verified
+                          ? "Verified"
+                          : artifactError
+                            ? "Unavailable"
+                            : "Mismatch"}
                     </dd>
                   </div>
                 </dl>

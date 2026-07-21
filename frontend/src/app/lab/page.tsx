@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { ApprovalPanel } from "@/components/approval-panel";
 import { TaskDashboard } from "@/components/task-dashboard";
@@ -10,6 +11,11 @@ import styles from "./page.module.css";
 
 const githubUrl = "https://github.com/SharkHand3/fasset-taskbounty";
 const explorerUrl = `https://coston2-explorer.flare.network/address/${activeDeployment.address}`;
+
+export const metadata: Metadata = {
+  robots: { follow: false, index: false },
+  title: "Integration lab",
+};
 
 export default function IntegrationLab() {
   return (

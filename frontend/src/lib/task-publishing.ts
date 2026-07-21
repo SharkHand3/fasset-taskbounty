@@ -1,4 +1,4 @@
-import { isHex, parseUnits, type Address, type Hex } from "viem";
+import { isHex, maxUint256, parseUnits, type Address, type Hex } from "viem";
 
 import { rewardTokenDecimals } from "../config/deployments";
 
@@ -8,7 +8,7 @@ export function parseRewardInput(value: string): bigint | null {
 
   try {
     const reward = parseUnits(normalized, rewardTokenDecimals);
-    return reward > 0n ? reward : null;
+    return reward > 0n && reward <= maxUint256 ? reward : null;
   } catch {
     return null;
   }

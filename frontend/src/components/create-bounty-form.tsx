@@ -389,6 +389,12 @@ export function CreateBountyForm() {
   }
 
   function invalidateGeneratedDraft() {
+    if (
+      generatedHash &&
+      metadataHashInput.toLowerCase() === generatedHash.toLowerCase()
+    ) {
+      setMetadataHashInput("");
+    }
     setGeneratedDraft(null);
     setGeneratedHash(null);
   }
@@ -506,11 +512,11 @@ export function CreateBountyForm() {
           Keccak-256 hash that commits to the exact UTF-8 bytes.
         </p>
         <div className={styles.formGrid}>
-          <label><span>Title</span><input onChange={(event) => { setDraftTitle(event.target.value); invalidateGeneratedDraft(); }} placeholder="Example: Build an analytics dashboard" value={draftTitle} /></label>
-          <label><span>Reward ({rewardTokenSymbol})</span><input inputMode="decimal" onChange={(event) => { setRewardInput(event.target.value); setArtifactCheck({ state: "idle" }); invalidateGeneratedDraft(); }} placeholder="1.5" value={rewardInput} /></label>
-          <label className={styles.full}><span>Description</span><textarea onChange={(event) => { setDraftDescription(event.target.value); invalidateGeneratedDraft(); }} placeholder="Describe the outcome, constraints, and context." rows={4} value={draftDescription} /></label>
-          <label><span>Deliverables — one per line</span><textarea onChange={(event) => { setDraftDeliverables(event.target.value); invalidateGeneratedDraft(); }} placeholder="Source repository\nDeployment URL" rows={5} value={draftDeliverables} /></label>
-          <label><span>Acceptance criteria — one per line</span><textarea onChange={(event) => { setDraftCriteria(event.target.value); invalidateGeneratedDraft(); }} placeholder="Automated checks pass\nDocumentation is complete" rows={5} value={draftCriteria} /></label>
+          <label><span>Title</span><input maxLength={120} onChange={(event) => { setDraftTitle(event.target.value); invalidateGeneratedDraft(); }} placeholder="Example: Build an analytics dashboard" value={draftTitle} /></label>
+          <label><span>Reward ({rewardTokenSymbol})</span><input inputMode="decimal" maxLength={80} onChange={(event) => { setRewardInput(event.target.value); setArtifactCheck({ state: "idle" }); invalidateGeneratedDraft(); }} placeholder="1.5" value={rewardInput} /></label>
+          <label className={styles.full}><span>Description</span><textarea maxLength={4_000} onChange={(event) => { setDraftDescription(event.target.value); invalidateGeneratedDraft(); }} placeholder="Describe the outcome, constraints, and context." rows={4} value={draftDescription} /></label>
+          <label><span>Deliverables — one per line</span><textarea maxLength={8_000} onChange={(event) => { setDraftDeliverables(event.target.value); invalidateGeneratedDraft(); }} placeholder="Source repository\nDeployment URL" rows={5} value={draftDeliverables} /></label>
+          <label><span>Acceptance criteria — one per line</span><textarea maxLength={8_000} onChange={(event) => { setDraftCriteria(event.target.value); invalidateGeneratedDraft(); }} placeholder="Automated checks pass\nDocumentation is complete" rows={5} value={draftCriteria} /></label>
         </div>
         <div className={styles.actions}>
           <button disabled={!reward || !draftTitle.trim() || !draftDescription.trim()} onClick={buildDraft} type="button">Generate deterministic JSON</button>
@@ -531,8 +537,8 @@ export function CreateBountyForm() {
           <strong>Signing gate</strong>
         </div>
         <div className={styles.formGrid}>
-          <label className={styles.full}><span>Version-pinned or content-addressed URI</span><input onChange={(event) => { setMetadataURI(event.target.value); setArtifactCheck({ state: "idle" }); }} placeholder="ipfs://… or https://…/commit/task-manifest.json" value={metadataURI} /></label>
-          <label className={styles.full}><span>Keccak-256 content hash</span><input onChange={(event) => { setMetadataHashInput(event.target.value); setArtifactCheck({ state: "idle" }); }} placeholder={`0x${"00".repeat(32)}`} value={metadataHashInput} /></label>
+          <label className={styles.full}><span>Version-pinned or content-addressed URI</span><input maxLength={2_048} onChange={(event) => { setMetadataURI(event.target.value); setArtifactCheck({ state: "idle" }); }} placeholder="ipfs://… or https://…/commit/task-manifest.json" value={metadataURI} /></label>
+          <label className={styles.full}><span>Keccak-256 content hash</span><input maxLength={66} onChange={(event) => { setMetadataHashInput(event.target.value); setArtifactCheck({ state: "idle" }); }} placeholder={`0x${"00".repeat(32)}`} value={metadataHashInput} /></label>
         </div>
         <div className={styles.verifyRow}>
           <div><span>Artifact status</span><strong>{artifactCheck.state === "idle" && "Not verified"}{artifactCheck.state === "checking" && "Retrieving exact bytes…"}{artifactCheck.state === "verified" && `${artifactCheck.title} · ${artifactCheck.byteLength?.toLocaleString()} bytes`}{artifactCheck.state === "mismatch" && "Hash mismatch — signing blocked"}{artifactCheck.state === "error" && "Artifact unavailable or invalid"}</strong>{artifactCheck.message && <small>{artifactCheck.message}</small>}</div>
@@ -543,7 +549,7 @@ export function CreateBountyForm() {
       <section className={styles.card}>
         <div className={styles.heading}>
           <div><span>Step 3</span><h2>Fund and publish</h2></div>
-          <strong>Coston2 · chainId 114</strong>
+          <strong>Coston2 · chainId {coston2.id}</strong>
         </div>
         <div className={styles.metrics}>
           <article><span>Wallet balance</span><strong>{balance.data === undefined ? "—" : `${formatUnits(balance.data, rewardTokenDecimals)} ${rewardTokenSymbol}`}</strong></article>

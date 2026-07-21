@@ -52,4 +52,24 @@ describe("task manifest product model", () => {
       "transaction reward",
     );
   });
+
+  it("rejects a manifest that names another escrow deployment", () => {
+    const draft = JSON.parse(
+      createTaskManifestDraft({
+        acceptanceCriteria: [],
+        deliverables: [],
+        description: "Check deployment binding.",
+        reward: "1000000",
+        title: "Deployment binding",
+      }),
+    ) as Record<string, unknown>;
+    draft.taskBounty = {
+      address: "0x0000000000000000000000000000000000000001",
+      version: "2.0.0",
+    };
+
+    expect(
+      getManifestPublishingError(parseTaskManifest(draft), 1_000_000n),
+    ).toContain("active deployment");
+  });
 });

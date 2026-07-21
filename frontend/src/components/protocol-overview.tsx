@@ -4,6 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import { formatUnits } from "viem";
 
 import {
+  rewardTokenDecimals,
+  rewardTokenSymbol,
+} from "@/config/deployments";
+import {
   readProtocolOverview,
   type ProtocolOverview,
 } from "@/lib/task-reader";
@@ -56,7 +60,9 @@ export function ProtocolOverviewCard() {
           <div>
             <dt>Active escrow</dt>
             <dd>
-              {data ? `${formatUnits(data.totalEscrowed, 6)} FTestXRP` : "—"}
+              {data
+                ? `${formatUnits(data.totalEscrowed, rewardTokenDecimals)} ${rewardTokenSymbol}`
+                : "—"}
             </dd>
           </div>
           <div>

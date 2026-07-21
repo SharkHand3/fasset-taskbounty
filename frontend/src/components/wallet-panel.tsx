@@ -13,7 +13,11 @@ import {
   useSwitchChain,
 } from "wagmi";
 
-import { rewardTokenAddress } from "@/config/deployments";
+import {
+  rewardTokenAddress,
+  rewardTokenDecimals,
+  rewardTokenSymbol,
+} from "@/config/deployments";
 import { coston2 } from "@/config/network";
 import { erc20ReadAbi } from "@/lib/abi/erc20";
 import {
@@ -240,12 +244,12 @@ export function WalletPanel() {
                 </dd>
               </div>
               <div>
-                <dt>Coston2 FTestXRP balance</dt>
+                <dt>Coston2 {rewardTokenSymbol} balance</dt>
                 <dd>
                   {tokenBalance.isPending
                     ? "Reading…"
                     : tokenBalance.data !== undefined
-                      ? `${formatUnits(tokenBalance.data, 6)} FTestXRP`
+                      ? `${formatUnits(tokenBalance.data, rewardTokenDecimals)} ${rewardTokenSymbol}`
                       : "Unavailable"}
                 </dd>
               </div>

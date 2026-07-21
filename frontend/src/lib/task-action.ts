@@ -13,3 +13,10 @@ export function getAvailableTaskAction(
   if (status === 2 && role === "creator") return "approve";
   return null;
 }
+
+export function isTaskActionEvidenceReady(
+  action: TaskAction | null,
+  resultVerified: boolean,
+): boolean {
+  return action !== "approve" || resultVerified;
+}

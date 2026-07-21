@@ -113,6 +113,11 @@ describe the deterministic fixtures now isolated in `/lab/`.
   the relevant public state.
 - Artifact verification hashes `Uint8Array` bytes returned by `arrayBuffer()`;
   it does not hash the URI string or parsed JSON.
+- Artifact retrieval is streamed with a 1 MiB maximum and a 15-second timeout.
+  Both a declared `Content-Length` and the bytes actually received are checked.
+- Creator approval is disabled until the exact committed result bytes have
+  passed Keccak-256 verification; a successful RPC simulation alone is not
+  sufficient evidence that the deliverable is correct.
 - Artifact fetches accept IPFS, Arweave, and version-pinned GitHub Raw URIs;
   the CSP permits only their configured HTTPS gateways plus the official RPC.
 - Every later write action must follow the same simulate, review, wallet

@@ -4,6 +4,7 @@ import {
   rewardTokenDecimals,
   rewardTokenSymbol,
 } from "../config/deployments";
+import { coston2 } from "../config/network";
 
 export interface TaskManifestView {
   acceptanceCriteria: string[];
@@ -20,6 +21,10 @@ export interface TaskManifestView {
     tokenAddress?: string;
   };
   schemaVersion: string;
+  taskBounty?: {
+    address: string;
+    version: string;
+  };
   title: string;
 }
 
@@ -82,6 +87,19 @@ export function parseTaskManifest(value: unknown): TaskManifestView {
     }
   }
 
+  if (record.taskBounty && typeof record.taskBounty === "object") {
+    const taskBounty = record.taskBounty as Record<string, unknown>;
+    if (
+      typeof taskBounty.address === "string" &&
+      typeof taskBounty.version === "string"
+    ) {
+      manifest.taskBounty = {
+        address: taskBounty.address,
+        version: taskBounty.version,
+      };
+    }
+  }
+
   return manifest;
 }
 
@@ -100,14 +118,26 @@ export function getManifestPublishingError(
   if (manifest.reward.decimals !== rewardTokenDecimals) {
     return `Manifest reward decimals must be ${rewardTokenDecimals}.`;
   }
-  if (!/^\d+$/.test(manifest.reward.rawAmount)) {
-    return "Manifest reward rawAmount must be an integer string.";
+  if (!/^(0|[1-9]\d*)$/.test(manifest.reward.rawAmount)) {
+    return "Manifest reward rawAmount must be a canonical integer string.";
+  }
+  if (manifest.reward.rawAmount.length > 78) {
+    return "Manifest reward rawAmount exceeds uint256 precision.";
   }
   if (BigInt(manifest.reward.rawAmount) !== expectedReward) {
     return "Manifest reward does not match the transaction reward.";
   }
-  if (manifest.network?.chainId !== 114) {
-    return "Manifest network must be Coston2 chainId 114.";
+  if (manifest.network?.chainId !== coston2.id) {
+    return `Manifest network must be Coston2 chainId ${coston2.id}.`;
+  }
+  if (
+    !manifest.taskBounty ||
+    manifest.taskBounty.address.toLowerCase() !== activeDeployment.address.toLowerCase()
+  ) {
+    return "Manifest TaskBounty address does not match the active deployment.";
+  }
+  if (manifest.taskBounty.version !== activeDeployment.contractVersion) {
+    return "Manifest TaskBounty version does not match the active deployment.";
   }
   return null;
 }
@@ -135,8 +165,8 @@ export function createTaskManifestDraft(input: {
         decimals: rewardTokenDecimals,
       },
       network: {
-        name: "Flare Testnet Coston2",
-        chainId: 114,
+        name: coston2.name,
+        chainId: coston2.id,
       },
       taskBounty: {
         address: activeDeployment.address,
