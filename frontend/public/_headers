@@ -2,4 +2,4 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), geolocation=(), microphone=()
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self' https://coston2-api.flare.network https://raw.githubusercontent.com https://ipfs.io https://arweave.net; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self' https://fasset-taskbounty-api.zyf291436865.workers.dev https://coston2-api.flare.network https://raw.githubusercontent.com https://ipfs.io https://arweave.net; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests

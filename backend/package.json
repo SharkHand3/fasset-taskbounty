@@ -1,0 +1,36 @@
+{
+  "name": "taskbounty-indexer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "cf-typegen": "wrangler types",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "deploy": "npm run db:migrate:remote && wrangler deploy",
+    "dev": "wrangler dev --local",
+    "dev:scheduled": "wrangler dev --local --test-scheduled",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "2.55.4"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.18.6",
+    "@types/node": "20.19.43",
+    "@eslint/js": "9.39.5",
+    "eslint": "9.39.5",
+    "globals": "16.4.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.1",
+    "vitest": "4.1.10",
+    "wrangler": "4.112.0"
+  },
+  "engines": {
+    "node": ">=22.16.0"
+  }
+}

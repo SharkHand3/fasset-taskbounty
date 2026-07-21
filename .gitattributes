@@ -1,16 +1,1 @@
-* text=auto
-
-.gitattributes text eol=lf
-*.json text eol=lf
-*.md text eol=lf
-*.sol text eol=lf
-*.toml text eol=lf
-*.sh text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
-*.js text eol=lf
-*.mjs text eol=lf
-*.css text eol=lf
-*.npmrc text eol=lf
-_headers text eol=lf
-.node-version text eol=lf
+backend/worker-configuration.d.ts whitespace=-trailing-space

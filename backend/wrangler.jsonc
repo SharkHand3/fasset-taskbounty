@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fasset-taskbounty-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-21",
+  "observability": { "enabled": true },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://fasset-taskbounty.pages.dev,http://localhost:3000,http://127.0.0.1:3000",
+    "ARTIFACT_TIMEOUT_MS": "15000",
+    "ARTIFACT_MAX_BYTES": "1048576",
+    "CHAIN_ID": "114",
+    "CONTRACT_VERSION": "2.0.0",
+    "EXPLORER_API_URL": "https://coston2-explorer.flare.network/api",
+    "FINALITY_CONFIRMATIONS": "12",
+    "LOG_CHUNK_SIZE": "10000",
+    "MAX_CHUNKS_PER_RUN": "8",
+    "REWARD_TOKEN_ADDRESS": "0x0b6A3645c240605887a5532109323A3E12273dc7",
+    "REWARD_TOKEN_DECIMALS": "6",
+    "REWARD_TOKEN_SYMBOL": "FTestXRP",
+    "RPC_URL": "https://coston2-api.flare.network/ext/C/rpc",
+    "START_BLOCK": "32928923",
+    "TASK_BOUNTY_ADDRESS": "0x26281308BE46D9b499579CC8776615C69f29826F"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fasset-taskbounty-index",
+      "database_id": "7fc1319b-d891-4eef-be00-353e597937b6",
+      "preview_database_id": "taskbounty-local-index",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": { "crons": ["* * * * *"] }
+}

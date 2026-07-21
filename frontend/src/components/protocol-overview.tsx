@@ -66,8 +66,12 @@ export function ProtocolOverviewCard() {
             </dd>
           </div>
           <div>
-            <dt>Latest block</dt>
+            <dt>{data?.source === "indexer" ? "Indexed block" : "Latest block"}</dt>
             <dd>{data?.blockNumber.toLocaleString() ?? "—"}</dd>
+          </div>
+          <div>
+            <dt>Read source</dt>
+            <dd>{data?.source === "indexer" ? "Indexed API" : "Public RPC"}</dd>
           </div>
         </dl>
       )}

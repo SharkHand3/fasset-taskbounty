@@ -24,6 +24,12 @@ review, then verified against the expected receipt event. A private key,
 recovery phrase, keystore file, or wallet password must never be entered into
 the page.
 
+Public task discovery uses the deployed Cloudflare Worker/D1 API first. The
+client validates its Coston2 chain ID, TaskBounty address, contract version,
+response schema, and integer-safe decimal strings. If that API is unavailable
+or fails validation, Viem safely falls back to the public Coston2 RPC; the
+blockchain remains the source of truth in both modes.
+
 ## Stack
 
 - Next.js `16.2.10` App Router
@@ -73,8 +79,10 @@ and use:
 | Node version | read from `.node-version` (`22.16.0`) |
 
 Every push to `main` will rebuild the static dashboard. Pull requests can use
-preview deployments. No environment variables are required; the RPC URL,
-testnet addresses and ABI versions are public configuration.
+preview deployments. No environment variables are required; the read API,
+RPC URL, testnet addresses and ABI versions are public configuration. A
+different compatible API can be selected at build time with
+`NEXT_PUBLIC_TASK_API_URL`.
 
 Injected wallets work in a static deployment because the wallet extension
 adds an EIP-1193 provider to the user's browser. Cloudflare serves only the

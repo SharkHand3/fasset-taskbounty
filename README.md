@@ -15,9 +15,9 @@ FAssets bring assets from chains without native smart contracts, such as XRP,
 into Flare's EVM environment. This project gives those assets a concrete use:
 paying for global technical work through an on-chain escrow workflow.
 
-## Current milestone
+## Current release
 
-The first milestone implements and tests the token escrow state machine:
+The current release implements and tests the token escrow state machine:
 
 ```text
 Open -> InProgress -> Submitted -> Completed
@@ -132,6 +132,23 @@ fixed-fixture write boundaries remain specified in
 The latest cross-layer quality audit, fixes, verification gates, and remaining
 risks are recorded in
 [`docs/current-stage-quality-review.md`](docs/current-stage-quality-review.md).
+
+### Production read API and event indexer
+
+**Live API:** <https://fasset-taskbounty-api.zyf291436865.workers.dev>
+
+The `backend/` Cloudflare Worker indexes all five confirmed TaskBounty V2
+lifecycle events into a versioned D1 schema. It keeps an idempotent checkpoint,
+projects query-friendly task rows, verifies committed artifact bytes, and
+serves health, protocol, cursor-paginated task-list, and task-detail endpoints.
+The API has no chain-write or wallet-secret capability.
+
+The frontend reads this API first after validating its deployment identity and
+response shape. If the API is unavailable or invalid, it safely falls back to
+the public Coston2 RPC, which remains the settlement source of truth. See
+[`docs/read-layer-architecture.md`](docs/read-layer-architecture.md) for the
+data model, trust boundary, public-RPC verification, Coston2 range constraint,
+deployment commands, and release evidence.
 
 ## Repository layout
 

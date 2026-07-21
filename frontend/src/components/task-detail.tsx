@@ -49,10 +49,10 @@ export function TaskDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(async (id: bigint) => {
+  const load = useCallback(async (id: bigint, preferRpc = false) => {
     setLoading(true);
     try {
-      const nextTask = await readTask(id);
+      const nextTask = await readTask(id, { preferRpc });
       setTask(nextTask);
 
       const metadataRequest = fetchAndVerifyJsonArtifact(
@@ -164,7 +164,7 @@ export function TaskDetail() {
             {task.status === 4 && "Refunded to the creator"}
             {task.status > 4 && "Settlement state is not recognized"}
           </small>
-          <button onClick={() => void load(task.id)} type="button">
+          <button onClick={() => void load(task.id, true)} type="button">
             Refresh chain and artifacts
           </button>
         </aside>
@@ -304,11 +304,15 @@ export function TaskDetail() {
                 <dt>Contract state</dt>
                 <dd>{status}</dd>
               </div>
+              <div>
+                <dt>Read source</dt>
+                <dd>{task.source === "indexer" ? "Indexed API" : "Public RPC"}</dd>
+              </div>
             </dl>
           </article>
 
           <TaskActionPanel
-            onConfirmed={() => void load(task.id)}
+            onConfirmed={() => void load(task.id, true)}
             resultVerified={resultVerified}
             task={task}
           />

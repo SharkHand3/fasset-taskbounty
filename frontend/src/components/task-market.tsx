@@ -263,10 +263,12 @@ export function TaskMarket() {
           })}
       </div>
 
-      {overview && overview.latestTaskId > 24n && (
+      {overview && (
         <p className={styles.indexerNote}>
-          Showing the latest 24 tasks. Historical pagination will move to the
-          event indexer as the marketplace grows.
+          {overview.source === "indexer"
+            ? `Indexed API · confirmed through block ${overview.indexedThroughBlock?.toLocaleString() ?? overview.blockNumber.toLocaleString()} · ${overview.lagBlocks?.toString() ?? "0"} block lag`
+            : "Direct public-RPC fallback active"}
+          {overview.latestTaskId > 24n && " · showing the latest 24 tasks"}
         </p>
       )}
     </>
