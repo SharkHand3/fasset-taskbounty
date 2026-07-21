@@ -14,7 +14,8 @@
     "dev:scheduled": "wrangler dev --local --test-scheduled",
     "lint": "eslint .",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:production": "node scripts/verify-production.mjs"
   },
   "dependencies": {
     "viem": "2.55.4"

@@ -33,9 +33,15 @@ clients do not lose integer precision.
 cd /d/web3/web3-taskbounty/backend
 npm ci
 npm run check
+npm run verify:production
 npm run db:migrate:local
 npm run dev
 ```
+
+`verify:production` reads the production API, then reads `VERSION()`,
+`nextTaskId()`, `totalEscrowed()`, and `getTask(1)` from the public Coston2 RPC
+at the API's exact confirmed snapshot block. It fails if protocol identity,
+task state, or artifact integrity diverges. It requires no wallet or secret.
 
 For a local scheduled sync, start the Worker with `npm run dev:scheduled`, then
 open `http://127.0.0.1:8787/__scheduled` in another Git Bash window.

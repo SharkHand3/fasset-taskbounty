@@ -150,6 +150,13 @@ the public Coston2 RPC, which remains the settlement source of truth. See
 data model, trust boundary, public-RPC verification, Coston2 range constraint,
 deployment commands, and release evidence.
 
+The cross-layer production parity check is reproducible without a wallet:
+
+```bash
+cd /d/web3/web3-taskbounty/backend
+npm run verify:production
+```
+
 ## Repository layout
 
 ```text

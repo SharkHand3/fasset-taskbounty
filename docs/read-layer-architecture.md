@@ -126,6 +126,7 @@ endpoint.
 cd /d/web3/web3-taskbounty/backend
 npm ci
 npm run check
+npm run verify:production
 npm run db:migrate:local
 npm run dev:scheduled
 ```
@@ -163,6 +164,13 @@ npm run deploy
   four normalized events and both artifacts are hash-verified.
 - Production API snapshot reproduced `VERSION=2.0.0`, `nextTaskId=2`,
   `totalEscrowed=0`, and Task #1 `Completed`, matching public RPC reads.
-
-The Pages deployment and production browser verification are recorded after
-the corresponding `main` deployment completes.
+- Reproducible `npm run verify:production` compared the production API against
+  public-RPC reads at the API's exact confirmed snapshot block and passed,
+  including both artifact commitments.
+- Production Pages deployment `d2bc82c1-1f73-4225-ad7c-93cb2f30bc09` serves
+  <https://fasset-taskbounty.pages.dev/>. Browser checks of the task list and
+  Task #1 detail reproduced the indexed API source, `Completed`, both verified
+  artifacts, and zero console warnings or errors.
+- A fresh local browser session was also tested with the local API online and
+  then offline. The offline run switched to `Direct public-RPC fallback
+  active`, reproduced Task #1, and emitted no console warnings or errors.
