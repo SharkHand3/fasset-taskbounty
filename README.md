@@ -103,6 +103,12 @@ The generated post-approval record is in
 The `frontend/` application is a production-buildable Next.js static export
 with a product surface and a deliberately separate QA surface:
 
+- The production UI uses the Human Proof design system: a warm editorial
+  surface, live protocol proof ticket, exact-byte evidence language, responsive
+  layouts, and reduced-motion-safe ambient effects. Its migration and browser
+  verification record is in
+  [`docs/human-proof-migration-qa.md`](docs/human-proof-migration-qa.md).
+
 - `/` explains the value proposition and reads live protocol totals.
 - `/tasks/` discovers recent tasks from the current V2 deployment.
 - `/tasks/view/?id=<id>` renders any existing task, verifies artifacts, derives

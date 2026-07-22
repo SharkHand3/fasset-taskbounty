@@ -1,14 +1,35 @@
 .card {
   position: relative;
-  padding: 28px;
+  z-index: 2;
+  width: calc(100% - 80px);
+  margin: 66px auto 0;
+  padding: 27px;
   overflow: hidden;
-  border: 1px solid var(--border-strong);
-  border-radius: 26px;
+  border: 1px solid rgba(19, 43, 39, 0.11);
+  border-radius: 23px;
   background:
-    radial-gradient(circle at 90% 110%, rgba(185, 255, 95, 0.14), transparent 42%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+    linear-gradient(122deg, rgba(255, 255, 255, 0.95), rgba(255, 254, 250, 0.84)),
     var(--panel);
-  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 30px 78px rgba(28, 76, 62, 0.17);
+  animation: ticketFloat 5.6s ease-in-out infinite;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: -25%;
+  width: 18%;
+  height: 100%;
+  transform: skewX(-17deg);
+  background: linear-gradient(90deg, transparent, rgba(47, 125, 99, 0.08), transparent);
+  animation: ticketScan 6.5s ease-in-out infinite 1.1s;
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .heading {
@@ -16,35 +37,53 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding-bottom: 22px;
+  padding-bottom: 20px;
   border-bottom: 1px solid var(--border);
 }
 
 .heading div > span {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
 }
 
 .heading strong {
   display: block;
   margin-top: 7px;
-  font-size: 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 500;
 }
 
 .live {
   padding: 7px 10px;
+  border: 1px solid rgba(47, 125, 99, 0.13);
   border-radius: 999px;
-  color: var(--lime);
-  background: var(--lime-soft);
+  color: var(--mint);
+  background: var(--mint-soft);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.live::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 4px rgba(47, 125, 99, 0.1);
 }
 
 .card dl {
   display: grid;
-  gap: 0;
 }
 
 .card dl > div {
@@ -52,7 +91,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 21px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -63,30 +102,66 @@
 
 .card dt {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .card dd {
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 760;
 }
 
 .error {
   display: grid;
   gap: 10px;
-  padding-top: 22px;
-  color: #ffd0d0;
-  font-size: 12px;
+  padding-top: 20px;
+  color: var(--danger);
+  font-size: 11px;
 }
 
 .error button {
   width: max-content;
   padding: 8px 12px;
   border: 1px solid var(--border-strong);
-  border-radius: 9px;
+  border-radius: 999px;
   color: var(--text);
   background: transparent;
-  cursor: pointer;
+}
+
+@keyframes ticketFloat {
+  0%, 100% { transform: translateY(0) rotate(-0.4deg); }
+  50% { transform: translateY(-9px) rotate(0.3deg); }
+}
+
+@keyframes ticketScan {
+  0%, 22% { left: -25%; }
+  60%, 100% { left: 125%; }
+}
+
+@media (max-width: 620px) {
+  .card {
+    width: calc(100% - 30px);
+    margin-top: 54px;
+    padding: 20px;
+  }
+
+  .card dl > div {
+    gap: 12px;
+    padding: 17px 0;
+  }
+
+  .card dd {
+    max-width: 58%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before {
+    animation: none;
+  }
 }

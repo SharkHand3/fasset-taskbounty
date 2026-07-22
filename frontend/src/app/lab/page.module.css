@@ -23,13 +23,13 @@
   height: 42px;
   display: grid;
   place-items: center;
-  color: #071412;
+  color: var(--action-text);
   background: var(--lime);
   border-radius: 12px;
   font-size: 13px;
   font-weight: 900;
   letter-spacing: -0.04em;
-  box-shadow: 0 0 32px rgba(185, 255, 95, 0.18);
+  box-shadow: 0 0 32px rgba(47, 125, 99, 0.18);
 }
 
 .brand strong,
@@ -80,7 +80,7 @@
   left: -180px;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(185, 255, 95, 0.12), transparent 66%);
+  background: radial-gradient(circle, rgba(47, 125, 99, 0.12), transparent 66%);
   filter: blur(20px);
   pointer-events: none;
 }
@@ -136,7 +136,7 @@
 }
 
 .primaryAction {
-  color: #071412;
+  color: var(--action-text);
   background: var(--lime);
 }
 
@@ -152,7 +152,7 @@
 }
 
 .secondaryAction:hover {
-  border-color: rgba(185, 255, 95, 0.45);
+  border-color: rgba(47, 125, 99, 0.45);
 }
 
 .proofList {
@@ -192,7 +192,7 @@
   width: 230px;
   height: 230px;
   border-radius: 50%;
-  background: rgba(185, 255, 95, 0.08);
+  background: rgba(47, 125, 99, 0.08);
   filter: blur(4px);
 }
 
@@ -220,7 +220,7 @@
   height: 8px;
   border-radius: 50%;
   background: var(--lime);
-  box-shadow: 0 0 0 5px rgba(185, 255, 95, 0.09);
+  box-shadow: 0 0 0 5px rgba(47, 125, 99, 0.09);
 }
 
 .heroMetric {

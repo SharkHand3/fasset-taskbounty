@@ -4,7 +4,7 @@
   border: 1px solid var(--border-strong);
   border-radius: 28px;
   background:
-    linear-gradient(135deg, rgba(185, 255, 95, 0.055), transparent 42%),
+    linear-gradient(135deg, rgba(47, 125, 99, 0.055), transparent 42%),
     var(--panel);
   scroll-margin-top: 20px;
 }
@@ -82,7 +82,7 @@
 .connectionPill.connected {
   color: var(--lime);
   background: var(--lime-soft);
-  border-color: rgba(185, 255, 95, 0.22);
+  border-color: rgba(47, 125, 99, 0.22);
 }
 
 .connectArea,
@@ -107,7 +107,7 @@
 .noWallet strong {
   display: block;
   margin-bottom: 7px;
-  color: #ffe0ad;
+  color: var(--warning);
   font-size: 13px;
 }
 
@@ -135,7 +135,7 @@
 .walletActions button {
   min-height: 44px;
   padding: 0 18px;
-  color: #071412;
+  color: var(--action-text);
   background: var(--lime);
   border: 1px solid var(--lime);
   border-radius: 11px;
@@ -199,7 +199,7 @@
   gap: 5px;
   margin-top: 20px;
   padding: 16px 18px;
-  color: #ffd6ce;
+  color: var(--danger);
   background: rgba(255, 107, 82, 0.08);
   border: 1px solid rgba(255, 143, 124, 0.28);
   border-radius: 12px;

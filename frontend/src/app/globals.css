@@ -1,14 +1,24 @@
 :root {
-  --background: #07100f;
-  --panel: #0c1816;
-  --panel-strong: #10201d;
-  --text: #edf5f0;
-  --muted: #8fa29b;
-  --lime: #b9ff5f;
-  --lime-soft: rgba(185, 255, 95, 0.1);
-  --red: #ff8f7c;
-  --border: rgba(232, 255, 244, 0.09);
-  --border-strong: rgba(232, 255, 244, 0.16);
+  --background: #f3f0e8;
+  --panel: #fffefa;
+  --panel-strong: #e9f0ea;
+  --text: #132b27;
+  --muted: #64766f;
+  --forest: #132b27;
+  --mint: #2f7d63;
+  --mint-soft: rgba(47, 125, 99, 0.1);
+  --mint-wash: #dce9dc;
+  --lime: #2f7d63;
+  --lime-soft: rgba(47, 125, 99, 0.1);
+  --coral: #ef654c;
+  --coral-dark: #a94231;
+  --coral-soft: #ff927f;
+  --danger: #a93f35;
+  --warning: #865914;
+  --red: #a93f35;
+  --action-text: #ffffff;
+  --border: rgba(19, 43, 39, 0.1);
+  --border-strong: rgba(19, 43, 39, 0.18);
   --font-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -28,12 +38,12 @@ html {
 
 body {
   min-height: 100vh;
+  overflow-x: hidden;
   color: var(--text);
   background:
-    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    radial-gradient(circle at 8% 9%, rgba(239, 101, 76, 0.055), transparent 26%),
+    radial-gradient(circle at 91% 2%, rgba(47, 125, 99, 0.075), transparent 25%),
     var(--background);
-  background-size: 48px 48px;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -45,7 +55,9 @@ a {
 }
 
 button,
-input {
+input,
+textarea,
+select {
   font: inherit;
 }
 
@@ -54,12 +66,32 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+button:not(:disabled),
+select:not(:disabled) {
+  cursor: pointer;
+}
+
 :focus-visible {
-  outline: 2px solid var(--lime);
+  outline: 2px solid var(--coral);
   outline-offset: 4px;
 }
 
 ::selection {
-  color: #07100f;
-  background: var(--lime);
+  color: #fff;
+  background: var(--coral);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

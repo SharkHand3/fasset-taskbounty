@@ -56,7 +56,7 @@
 }
 
 .sectionHeader button:hover:not(:disabled) {
-  border-color: rgba(185, 255, 95, 0.5);
+  border-color: rgba(47, 125, 99, 0.5);
 }
 
 .sectionHeader button:disabled {
@@ -69,7 +69,7 @@
   gap: 5px;
   margin-top: 28px;
   padding: 16px 18px;
-  color: #ffd6ce;
+  color: var(--danger);
   background: rgba(255, 107, 82, 0.08);
   border: 1px solid rgba(255, 143, 124, 0.28);
   border-radius: 12px;
@@ -168,7 +168,7 @@
 .verificationPill.verified {
   color: var(--lime);
   background: var(--lime-soft);
-  border-color: rgba(185, 255, 95, 0.2);
+  border-color: rgba(47, 125, 99, 0.2);
 }
 
 .verificationPill.failed {

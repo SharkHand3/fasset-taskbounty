@@ -38,7 +38,7 @@
 
 .sectionIntro code,
 .creationCard code {
-  color: #a7ddff;
+  color: #286987;
   font-family: var(--font-mono);
 }
 
@@ -87,7 +87,7 @@
   padding: 8px 12px;
   border: 1px solid rgba(120, 207, 255, 0.3);
   border-radius: 999px;
-  color: #a7ddff;
+  color: #286987;
   background: rgba(120, 207, 255, 0.07);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -95,9 +95,9 @@
 }
 
 .statusReady {
-  border-color: rgba(185, 255, 95, 0.32);
+  border-color: rgba(47, 125, 99, 0.32);
   color: var(--lime);
-  background: rgba(185, 255, 95, 0.07);
+  background: rgba(47, 125, 99, 0.07);
 }
 
 .readinessMessage {
@@ -161,7 +161,7 @@
   max-width: 680px;
   margin-top: 6px;
   overflow-wrap: anywhere;
-  color: #ffd0d0;
+  color: var(--danger);
   font-size: 11px;
 }
 
@@ -174,7 +174,7 @@
   padding: 0 18px;
   border: 0;
   border-radius: 11px;
-  color: #071412;
+  color: var(--action-text);
   background: var(--lime);
   font-size: 13px;
   font-weight: 800;
@@ -228,7 +228,7 @@
 }
 
 .transactionReview a {
-  color: #a7ddff;
+  color: #286987;
   font-family: var(--font-mono);
 }
 
@@ -238,7 +238,7 @@
   gap: 12px;
   margin-top: 18px;
   padding: 16px 18px;
-  border: 1px solid rgba(185, 255, 95, 0.25);
+  border: 1px solid rgba(47, 125, 99, 0.25);
   border-radius: 14px;
   color: var(--text);
   font-size: 13px;
@@ -270,8 +270,8 @@
 }
 
 .receiptArea {
-  border: 1px solid rgba(185, 255, 95, 0.26);
-  background: rgba(185, 255, 95, 0.04);
+  border: 1px solid rgba(47, 125, 99, 0.26);
+  background: rgba(47, 125, 99, 0.04);
 }
 
 .receiptArea a {
@@ -288,7 +288,7 @@
 
 .errorBanner {
   border: 1px solid rgba(255, 112, 112, 0.3);
-  color: #ffd0d0;
+  color: var(--danger);
   background: rgba(255, 112, 112, 0.06);
   font-size: 12px;
   line-height: 1.55;

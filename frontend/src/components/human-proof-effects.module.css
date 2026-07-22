@@ -1,0 +1,33 @@
+.field {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.82;
+}
+
+.loadWipe {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  pointer-events: none;
+  background: var(--forest);
+  transform-origin: right center;
+  animation: wipe 1.12s 80ms cubic-bezier(0.77, 0, 0.18, 1) both;
+}
+
+@keyframes wipe {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadWipe {
+    animation-duration: 1ms;
+  }
+}
