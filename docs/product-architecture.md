@@ -24,7 +24,9 @@ introducing a server solely for routing.
 
 ## Trust and custody boundaries
 
-1. Public reads use the configured Coston2 RPC and require no wallet.
+1. Public reads use the versioned read API and require no wallet. The frontend
+   validates its deployment identity and response shape, then falls back to the
+   configured Coston2 RPC if the API is unavailable or invalid.
 2. Rich briefs and results live off-chain, while exact UTF-8 bytes are bound to
    on-chain Keccak-256 commitments.
    Browser retrieval is limited to 1 MiB per artifact and 15 seconds per
@@ -53,8 +55,10 @@ worker addresses. No product action is authorized by a global hard-coded role.
 
 ## Current beta limitations
 
-- Discovery reads a bounded recent window directly from RPC. A production
-  marketplace needs an event indexer, database, pagination, search, and caching.
+- Discovery uses a confirmed-event Cloudflare Worker/D1 read model with cursor
+  pagination and role/status filters. It does not yet provide full-text search,
+  notification delivery, profile indexing, product analytics, or multi-region
+  archive-RPC redundancy.
 - Manifest generation is local. The current browser beta expects the downloaded
   exact bytes to be published to IPFS, Arweave, or a version-pinned GitHub Raw
   URL. A later artifact service can add managed object storage and automate
@@ -67,9 +71,12 @@ worker addresses. No product action is authorized by a global hard-coded role.
   disputes, arbitration, milestones, reputation, moderation, and protocol fees
   are not yet implemented.
 - The product is Coston2-only and uses FTestXRP. It is not a mainnet service.
-- Direct browser RPC and artifact requests depend on provider availability and
-  CORS. The future query API should provide resilient indexed reads while chain
-  state remains the settlement source of truth.
+- The primary read API and direct-RPC fallback both depend on external network
+  providers. The indexer uses the explorer only as a historical discovery aid
+  for ranges that exceed the public RPC's 30-block `eth_getLogs` limit and
+  re-fetches every discovered receipt from public RPC before decoding. A
+  production-scale service should use a monitored archive RPC and independent
+  index-source reconciliation.
 - The current create workflow is intentionally implemented in one client
   component. It should be split into manifest, allowance, transaction, and
   receipt modules when managed uploads or additional settlement options are

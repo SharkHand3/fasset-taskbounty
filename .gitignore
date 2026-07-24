@@ -15,6 +15,7 @@ contracts/lib/
 
 # Frontend/backend dependencies (reserved for later milestones)
 node_modules/
+.npm-cache/
 .next/
 dist/
 coverage/

@@ -1,13 +1,28 @@
 # FAsset TaskBounty
 
-FAsset TaskBounty is a small Web3 engineering project being built for the
-**Interoperable Asset Products** track of the
-[Flare Summer Signal](https://dorahacks.io/hackathon/flaresummersignal)
-hackathon on DoraHacks.
+FAsset TaskBounty is a Coston2 product for the **Interoperable Asset Products**
+track of the
+[Flare Summer Signal](https://dorahacks.io/hackathon/flaresummersignal/detail)
+hackathon on DoraHacks. It turns FTestXRP into a verifiable work reward through
+smart-contract escrow, exact-byte artifact commitments, and a publicly
+inspectable settlement trail.
 
-The product goal is to let a client escrow an FAsset such as test FXRP as the
-reward for a task. A worker accepts the task, submits an off-chain result URI,
-and receives the escrowed reward after the client approves the work.
+The product lets a client escrow an FAsset such as test FXRP as the reward for
+a task. A worker accepts the task, submits a committed off-chain result, and
+receives the escrowed reward after the client verifies and approves the work.
+
+## Public release
+
+- Product: <https://fasset-taskbounty.pages.dev/>
+- Read API: <https://fasset-taskbounty-api.zyf291436865.workers.dev>
+- Coston2 V2 contract:
+  [`0x2628...826F`](https://coston2-explorer.flare.network/address/0x26281308BE46D9b499579CC8776615C69f29826F)
+- Copy-ready DoraHacks package:
+  [`docs/submission/`](docs/submission/dorahacks-submission.md)
+- Completed Coston2 evidence:
+  [`docs/v2-completion-evidence.md`](docs/v2-completion-evidence.md)
+
+![FAsset TaskBounty live protocol home](docs/assets/submission/home.png)
 
 ## Why this is an interoperable asset product
 
@@ -62,9 +77,9 @@ and worker. The historical V1 workflow remains available as separate evidence.
 - Network: Flare Testnet Coston2 (`114`)
 - Build target: Solidity `0.8.35`, EVM `cancun`, optimizer enabled with 200 runs
 
-This address runs the V1 ABI used to prove the end-to-end workflow. It remains
-valid historical evidence, but it does not contain the V2 content-hash fields
-now present on `main`. A new deployment is required for V2 transactions.
+This address runs the V1 ABI used to prove the first end-to-end workflow. It
+remains valid historical evidence, but it does not contain the V2 content-hash
+fields. Product transactions use the separate V2 deployment listed above.
 
 ### Completed Coston2 Task #1
 
@@ -170,9 +185,38 @@ web3-taskbounty/
 ├── contracts/            Solidity contracts, scripts, and Foundry tests
 ├── frontend/             Next.js static read and artifact-verification app
 ├── backend/              Event indexer and read API
-├── docs/                 Product and hackathon notes
+├── docs/                 Product, evidence, architecture, and submission kit
 └── README.md
 ```
+
+## Architecture at a glance
+
+```mermaid
+flowchart LR
+  W["Injected EIP-1193 wallet"]
+  F["Next.js product\nWagmi + Viem"]
+  C["TaskBounty V2\nCoston2 source of truth"]
+  T["FTestXRP"]
+  I["Cloudflare Worker\nconfirmed-event indexer"]
+  D["D1 rebuildable read model"]
+  A["Versioned read API"]
+  O["Immutable artifact storage"]
+
+  W <-->|"user-approved signatures"| F
+  F -->|"public reads / simulated writes"| C
+  C <--> T
+  C -->|"5 lifecycle events"| I
+  I --> D --> A -->|"primary product reads"| F
+  F -.->|"validated RPC fallback"| C
+  F <-->|"exact bytes + Keccak-256"| O
+```
+
+The contract is the settlement authority. D1 is a disposable query projection,
+not another ledger. Public reads work without a wallet; private keys and wallet
+passwords never enter the application. See
+[`docs/architecture.md`](docs/architecture.md) and
+[`docs/read-layer-architecture.md`](docs/read-layer-architecture.md) for the
+full trust model.
 
 ## Local setup
 
@@ -190,6 +234,32 @@ forge test
 The current V2 suite contains 11 business tests, including 256 fuzz runs and a
 fee-on-transfer underfunding test.
 
+## Repeatable quality gates
+
+```bash
+# Run from Git Bash
+cd /d/web3/web3-taskbounty
+node scripts/check-markdown-links.mjs
+
+cd contracts && forge fmt --check && forge test
+cd ../frontend && npm ci && npm run check
+npm audit --omit=dev --omit=optional
+cd ../backend && npm ci && npm run check && npm audit --omit=dev
+npm run verify:production
+```
+
+The same contract, frontend, backend, and documentation gates run on every push
+and pull request through [GitHub Actions](.github/workflows/ci.yml). The CI
+token has read-only repository contents permission; deployment remains a
+separate, explicitly authorized operation.
+
+The frontend is exported as static files with image optimization disabled, so
+the deployed Pages artifact contains no Next.js server or Sharp runtime. The
+non-optional production dependency audit is therefore the deployed boundary.
+The full build-tree audit currently reports the upstream optional Sharp
+advisory described in [`SECURITY.md`](SECURITY.md); it is monitored rather than
+hidden or “fixed” with an unsupported forced downgrade.
+
 ## Coston2 setup
 
 The repository contains the official Coston2 RPC alias and a dedicated
@@ -200,5 +270,15 @@ steps.
 ## Safety boundary
 
 - Development starts on Anvil and in Foundry tests.
-- Network deployment will use Flare Testnet Coston2.
+- The public deployment uses Flare Testnet Coston2 only.
 - No mainnet funds are required for the learning and submission workflow.
+- This release has not received an independent smart-contract security audit
+  and must not be represented as mainnet-ready.
+
+## Submission status
+
+The repository contains the required project description, target user, Flare
+integration explanation, new-work evidence, deployed addresses, roadmap,
+recording script, and final checklist in [`docs/submission/`](docs/submission/).
+The only remaining organizer-facing actions are the user's video
+recording/upload and authenticated DoraHacks form review/submission.
