@@ -71,15 +71,24 @@ solve the most important user problem.
 ### Browser and evidence acceptance
 
 - Live home loaded the Coston2 protocol ticket through the indexed API with no
-  visible error.
+  visible error and no horizontal overflow.
 - Marketplace loaded Task #1 as `Completed`, with one total task, no active
-  escrow, and no visible error.
+  escrow, and no visible error or horizontal overflow.
 - Generic Task #1 detail reported `1 FTestXRP`, `Completed`, two distinct
   participants, and `Indexed API` as the read source.
 - Both task and result artifacts reported `Hash verified` after exact-byte
   retrieval.
-- Browser console error/warning checks and responsive acceptance are repeated
-  after the submission commit is deployed.
+- The create-bounty surface loaded its manifest, verification, exact-allowance,
+  and funding stages without a visible error or horizontal overflow.
+- Desktop acceptance passed at a 1280 px browser viewport. Mobile acceptance
+  passed at a 390 x 844 viewport on the home and completed-task pages, with
+  zero document-level horizontal overflow.
+- Browser warning/error logs were empty after the route checks.
+- GitHub Actions passed all four release jobs for commit `7ac0c09`:
+  [run 30067549524](https://github.com/SharkHand3/fasset-taskbounty/actions/runs/30067549524).
+- Cloudflare Pages deployed commit `7ac0c09` as production deployment
+  `b4fd1362-8125-4756-817c-e316d974ac98`; the stable Pages alias served the
+  browser acceptance run.
 - Versioned product screenshots are stored in
   [`assets/submission/`](assets/submission/).
 
@@ -121,7 +130,8 @@ state-changing RPC call was used during this review.
 
 ## Stage boundary
 
-The code and evidence are ready for the final submission workflow. After the
-current commit reaches GitHub and Cloudflare Pages, repeat production parity,
-desktop/mobile browser, console, public-link, and screenshot checks. If they
-pass, the user can record the scripted demo and submit the prepared material.
+The code, public deployment, production parity, desktop/mobile browser checks,
+console checks, public-link validation, and versioned screenshots are ready for
+the final submission workflow. The only remaining release inputs are the
+user-recorded public demo video and the user's authenticated DoraHacks form
+review and submission.

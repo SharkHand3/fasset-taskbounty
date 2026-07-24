@@ -24,19 +24,23 @@ early.
 
 ## Technical release gate
 
-- [ ] `contracts`: all Foundry tests pass, including fuzz tests.
-- [ ] `frontend`: ESLint, TypeScript, Vitest, and static production build pass.
-- [ ] `backend`: ESLint, TypeScript, Vitest, and Wrangler dry-run build pass.
-- [ ] Frontend and backend production dependency audits have no known
-  production vulnerability.
-- [ ] Production API and public Coston2 RPC match at the API's confirmed
+- [x] `contracts`: all Foundry tests pass, including fuzz tests.
+- [x] `frontend`: ESLint, TypeScript, Vitest, and static production build pass.
+- [x] `backend`: ESLint, TypeScript, Vitest, and Wrangler dry-run build pass.
+- [x] Backend and non-optional frontend production dependency audits have no
+  known vulnerability. The optional, non-deployed Sharp build-tree advisory is
+  documented in [`SECURITY.md`](../../SECURITY.md) and becomes release-blocking
+  if server rendering or runtime image optimization is introduced.
+- [x] Production API and public Coston2 RPC match at the API's confirmed
   snapshot block.
-- [ ] Live home, marketplace, and Task #1 pages load without console errors.
-- [ ] Task #1 reports `Completed`; task and result artifacts report verified.
-- [ ] Live `/v1/health`, `/v1/protocol`, `/v1/tasks`, and `/v1/tasks/1`
+- [x] Live home, marketplace, create, and Task #1 pages load without browser
+  warning/error logs or horizontal overflow; home and Task #1 also pass at a
+  390 x 844 mobile viewport.
+- [x] Task #1 reports `Completed`; task and result artifacts report verified.
+- [x] Live `/v1/health`, `/v1/protocol`, `/v1/tasks`, and `/v1/tasks/1`
   endpoints return the expected deployment identity and data.
-- [ ] README and submission-package local Markdown links resolve.
-- [ ] Repository contains no `.env`, private key, recovery phrase, keystore,
+- [x] README and submission-package local Markdown links resolve.
+- [x] Repository contains no `.env`, private key, recovery phrase, keystore,
   password, authentication token, or wallet signature.
 
 Do not mark these boxes from memory. Update them only after the final release
@@ -44,29 +48,29 @@ commands and browser acceptance run have completed.
 
 ## Evidence assets
 
-- [ ] Product cover image is stored in `docs/assets/submission/` and renders in
+- [x] Product cover image is stored in `docs/assets/submission/` and renders in
   the repository.
-- [ ] Home/protocol screenshot is current.
-- [ ] Completed Task #1 and artifact-verification screenshot is current.
-- [ ] Architecture image or Mermaid diagram is readable without private data.
-- [ ] Demo follows [demo-script.md](demo-script.md).
+- [x] Home/protocol screenshot is current.
+- [x] Completed Task #1 and artifact-verification screenshot is current.
+- [x] Architecture image or Mermaid diagram is readable without private data.
+- [ ] Demo recording follows [demo-script.md](demo-script.md).
 - [ ] Video is public and viewable while signed out.
 - [ ] Video description links the live app, GitHub repository, contract, and
   approval transaction.
 
 ## Claim-safety gate
 
-- [ ] Say **Coston2 testnet**, not mainnet.
-- [ ] Say **official Coston2 FTestXRP token used as the reward asset**; do not
+- [x] Say **Coston2 testnet**, not mainnet.
+- [x] Say **official Coston2 FTestXRP token used as the reward asset**; do not
   claim the app mints FAssets.
-- [ ] Do not claim direct FDC integration. FAssets relies on Flare protocols,
+- [x] Do not claim direct FDC integration. FAssets relies on Flare protocols,
   while this application composes the resulting ERC-20 asset.
-- [ ] Describe D1 as a rebuildable read projection, not the ledger.
-- [ ] Describe the system as a non-custodial platform using smart-contract
+- [x] Describe D1 as a rebuildable read projection, not the ledger.
+- [x] Describe the system as a non-custodial platform using smart-contract
   escrow; do not imply that no component ever holds tokens.
-- [ ] Do not claim an audit, production users, partnerships, revenue, mainnet
+- [x] Do not claim an audit, production users, partnerships, revenue, mainnet
   readiness, or metrics that do not exist.
-- [ ] Distinguish the pre-program learning scaffold from the work listed in
+- [x] Distinguish the pre-program learning scaffold from the work listed in
   [new-work-evidence.md](new-work-evidence.md).
 
 ## User-only final actions
