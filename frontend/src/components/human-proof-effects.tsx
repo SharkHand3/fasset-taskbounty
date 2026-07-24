@@ -37,7 +37,10 @@ export function HumanProofEffects() {
     let height = 0;
 
     const resize = () => {
-      width = window.innerWidth;
+      // innerWidth includes the vertical scrollbar gutter in desktop browsers.
+      // Match the layout viewport so the fixed canvas cannot create an
+      // otherwise invisible horizontal overflow region.
+      width = document.documentElement.clientWidth;
       height = window.innerHeight;
       const density = Math.min(
         78,

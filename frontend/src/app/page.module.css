@@ -353,8 +353,8 @@
 }
 
 .ticker {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: calc(100% + (2 * var(--shell-gutter)));
+  margin-left: calc(-1 * var(--shell-gutter));
   overflow: hidden;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);

@@ -28,6 +28,7 @@ solve the most important user problem.
 | Link durability | Relative Markdown links had no repeatable validation | Added exact-case local path and heading checks across the repository |
 | Framework security | Next.js `16.2.10` was superseded by the July 2026 security release | Upgraded Next.js and its ESLint config to `16.2.11`, rebuilt, retested, and retained exact lockfile versions |
 | Static deployment boundary | The build tree includes optional Sharp, which could be mistaken for a deployed image server | Explicitly disabled Next image optimization; Cloudflare Pages receives only the static export; documented the upstream advisory and audit boundary in `SECURITY.md` |
+| Responsive viewport | The full-bleed ticker and particle canvas used scrollbar-inclusive viewport widths, creating an 8 px desktop overflow region | Bound both effects to the layout viewport and responsive shell gutter instead of raw `100vw`/`innerWidth` |
 | Vulnerability reporting | The repository had no private-reporting guidance | Added a security policy, testnet scope, and responsible disclosure path |
 | Submission evidence | Product images were separate from the versioned technical evidence | Captured current live home, marketplace, completed-task, and hash-verification views under `docs/assets/submission/` |
 

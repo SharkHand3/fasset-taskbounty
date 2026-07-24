@@ -1,4 +1,6 @@
 .shell {
+  --shell-gutter: 36px;
+
   position: relative;
   z-index: 1;
   width: min(1320px, calc(100% - 72px));
@@ -153,6 +155,8 @@
 
 @media (max-width: 980px) {
   .shell {
+    --shell-gutter: 20px;
+
     width: min(100% - 40px, 1320px);
   }
 
@@ -173,6 +177,8 @@
 
 @media (max-width: 620px) {
   .shell {
+    --shell-gutter: 14px;
+
     width: min(100% - 28px, 1320px);
   }
 
